@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 5.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Project Review-1 本科毕业设计 - Zhengzb&#39;s Blog</title>
+
+
+    <meta name="description" content="报告内容 卷积神经网络模型的搭建和训练 模型的参数获取及数据的定点化 基于 ZYNQ 的卷积神经网络加速器架构的设计 卷积核计算电路的设计、仿真以及计算结果对比 总结和计划">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Project Review-1 本科毕业设计">
+<meta property="og:url" content="https://samzhengzb.github.io/2020/04/01/Review1/">
+<meta property="og:site_name" content="Zhengzb&#39;s Blog">
+<meta property="og:description" content="报告内容 卷积神经网络模型的搭建和训练 模型的参数获取及数据的定点化 基于 ZYNQ 的卷积神经网络加速器架构的设计 卷积核计算电路的设计、仿真以及计算结果对比 总结和计划">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://samzhengzb.github.io/images/og_image.png">
+<meta property="article:published_time" content="2020-04-01T06:21:17.000Z">
+<meta property="article:modified_time" content="2021-01-15T13:31:00.482Z">
+<meta property="article:author" content="zhengzb">
+<meta property="article:tag" content="毕设项目">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://samzhengzb.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/github-gist.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/mylogo.svg" alt="Project Review-1 本科毕业设计" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives/">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories/">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags/">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about/">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main">
+<div class="card">	
+    
+	
+    <div class="card-content article ">		
+		
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+				
+				
+                <time class="level-item has-text-grey" datetime="2020-04-01T06:21:17.000Z">2020-04-01</time>
+				
+				
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Project/">Project</a>
+                </div>
+                
+             
+				
+                <span class="level-item has-text-grey">
+                    
+                    
+                    15 minutes read (About 2319 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+				
+				
+				<i class="fas fa-arrow-alt-circle-up" style="color:#3273dc"></i>
+				<span class="level-item" style="color:#3273dc">&nbsp;Top</span>
+				
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Project Review-1 本科毕业设计
+            
+        </h1>
+        <div class="content">
+            <h2 id="报告内容"><a href="#报告内容" class="headerlink" title="报告内容"></a>报告内容</h2><ul>
+<li>卷积神经网络模型的搭建和训练</li>
+<li>模型的参数获取及数据的定点化</li>
+<li>基于 <em>ZYNQ</em> 的卷积神经网络加速器架构的设计</li>
+<li>卷积核计算电路的设计、仿真以及计算结果对比</li>
+<li>总结和计划<a id="more"></a>
+
+</li>
+</ul>
+<h3 id="CNN-模型的搭建"><a href="#CNN-模型的搭建" class="headerlink" title="CNN 模型的搭建"></a><em>CNN</em> 模型的搭建</h3><p>一种用于手写数字识别的卷积神经网络（<em>Convolution Neural Network</em> , 简称<em>CNN</em> ），参考了<em>LeNet-5</em> 模型，我对该模型的卷积核大小以及数量进行了调整，以便更好适配之后设计的硬件加速器，且两者的识别准确率相差不大。该网络模型包括输入层、卷积层、池化层、全连接层以及输出层。模型结构如图1所示：</p>
+<p><img src="/2020/04/01/Review1/cnnmodel.svg" alt></p>
+<center style="font-size:14px"> 图1：卷积神经网络的结构 </center><br>
+
+<p>其中输入图像像素大小为<em>30x30</em> ,经过两组卷积层和池化层，最后连接两层全连接层。卷积层采用大小为<em>3x3</em> 的卷积核，步长为<em>1</em>；池化层采用的是<em>2x2</em> 区域的最大值池化；激活函数使用 <em>ReLu</em> 。使用 <strong>Tensorflow</strong>进行网络模型搭建，部分代码如下。在 <strong>Colab</strong> 上已经完成了模型的训练，该模型在<em>10000</em> 张验证集图片中准确率为<strong>98.13%</strong> 。部分源代码如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 搭建网络结构</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MNIST_CNN</span>(<span class="params">Model</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.conv1 = layers.Conv2D(</span><br><span class="line">            filters=<span class="number">8</span>,</span><br><span class="line">            kernel_size=[<span class="number">3</span>, <span class="number">3</span>],</span><br><span class="line">            activation=tf.nn.relu,</span><br><span class="line">            padding=<span class="string">&#x27;valid&#x27;</span>,</span><br><span class="line">            name=<span class="string">&#x27;conv2d_1&#x27;</span>,</span><br><span class="line">            input_shape=(<span class="number">30</span>, <span class="number">30</span>, <span class="number">1</span>)</span><br><span class="line">        )</span><br><span class="line">        self.pool1 = layers.MaxPool2D(pool_size=[<span class="number">2</span>, <span class="number">2</span>], strides=<span class="number">2</span>, name=<span class="string">&#x27;max_pooling2d_1&#x27;</span>)</span><br><span class="line">        self.conv2 = layers.Conv2D(</span><br><span class="line">            filters=<span class="number">16</span>,</span><br><span class="line">            kernel_size=[<span class="number">3</span>, <span class="number">3</span>],</span><br><span class="line">            padding=<span class="string">&#x27;valid&#x27;</span>,</span><br><span class="line">            name=<span class="string">&#x27;conv2d_2&#x27;</span>,</span><br><span class="line">            activation=tf.nn.relu</span><br><span class="line">        )</span><br><span class="line">        self.pool2 = layers.MaxPool2D(pool_size=[<span class="number">2</span>, <span class="number">2</span>], strides=<span class="number">2</span>, name=<span class="string">&#x27;max_pooling2d_2&#x27;</span>)</span><br><span class="line">        self.flatten = layers.Reshape(target_shape=(<span class="number">6</span> * <span class="number">6</span> * <span class="number">16</span>,))</span><br><span class="line">        self.dense1 = layers.Dense(units=<span class="number">10</span>)</span><br><span class="line">        <span class="comment"># self.dense2 = layers.Dense(units=10)</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">call</span>(<span class="params">self, inputs</span>):</span></span><br><span class="line">        x = self.conv1(inputs)            <span class="comment"># [batch_size, 28, 28, 8]</span></span><br><span class="line">        x = self.pool1(x)                 <span class="comment"># [batch_size, 14, 14, 8]</span></span><br><span class="line">        x = self.conv2(x)                 <span class="comment"># [batch_size, 12, 12, 16]</span></span><br><span class="line">        x = self.pool2(x)                 <span class="comment"># [batch_size, 6, 6, 16]</span></span><br><span class="line">        x = self.flatten(x)               <span class="comment"># [batch_size, 6 * 6 * 16]</span></span><br><span class="line">        x = self.dense1(x)                <span class="comment"># [batch_size, 10]</span></span><br><span class="line">        output = tf.nn.softmax(x)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> output</span><br><span class="line">    </span><br><span class="line">model = MNIST_CNN()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 验证准确率</span></span><br><span class="line">pred = <span class="string">&#x27;Loss: &#123;:.4f&#125;, Accuracy: &#123;:.4f&#125;&#x27;</span></span><br><span class="line">print(pred.<span class="built_in">format</span>(test_loss.result(),test_accuracy.result()))</span><br></pre></td></tr></table></figure>
+
+<h3 id="模型的参数获取与数据的定点化"><a href="#模型的参数获取与数据的定点化" class="headerlink" title="模型的参数获取与数据的定点化"></a>模型的参数获取与数据的定点化</h3><p>利用 <strong>Tensorflow</strong> 的 <em>checkpoint</em> 函数可以对训练好的参数文件进行保存，由于在云端训练时采用的是32位的浮点数计算，故保存下来的参数是浮点数格式。但在 <em>FPGA</em> 上进行浮点数计算时，会消耗大量的硬件资源，可能无法在板上有限的硬件资源下完成加速器的硬件电路实现，因此需要将 <strong>浮点数做定点化处理</strong>，本次项目中使用的16位的定点数，包括1位符号位，4位整数位以及11位小数位，利用 <em>python</em>编写了数值转换的脚本，其部分结果如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th align="center">原始浮点数</th>
+<th align="center">定点数</th>
+<th align="center">定点数还原浮点数</th>
+<th align="center">误差值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0.10980392</td>
+<td align="center">0x00e1</td>
+<td align="center">0.10986328</td>
+<td align="center">-0.0000594</td>
+</tr>
+<tr>
+<td align="center">0.78039216</td>
+<td align="center">0x063e</td>
+<td align="center">0.78027344</td>
+<td align="center">0.0001187</td>
+</tr>
+<tr>
+<td align="center">0.33333333</td>
+<td align="center">0x02ab</td>
+<td align="center">0.33349609</td>
+<td align="center">-0.0001628</td>
+</tr>
+<tr>
+<td align="center">0.98823529</td>
+<td align="center">0x07e8</td>
+<td align="center">0.98828125</td>
+<td align="center">-0.0000460</td>
+</tr>
+<tr>
+<td align="center">0.97647059</td>
+<td align="center">0x07d0</td>
+<td align="center">0.97656250</td>
+<td align="center">-0.0000919</td>
+</tr>
+<tr>
+<td align="center">0.57254902</td>
+<td align="center">0x0495</td>
+<td align="center">0.57275391</td>
+<td align="center">-0.0002049</td>
+</tr>
+<tr>
+<td align="center">0.18823529</td>
+<td align="center">0x0182</td>
+<td align="center">0.18847656</td>
+<td align="center">-0.0002413</td>
+</tr>
+<tr>
+<td align="center">0.11372549</td>
+<td align="center">0x00e9</td>
+<td align="center">0.11376953</td>
+<td align="center">-0.0000440</td>
+</tr>
+<tr>
+<td align="center">0.33333333</td>
+<td align="center">0x02ab</td>
+<td align="center">0.33349609</td>
+<td align="center">-0.0001628</td>
+</tr>
+<tr>
+<td align="center">0.69803922</td>
+<td align="center">0x0596</td>
+<td align="center">0.69824219</td>
+<td align="center">-0.0002030</td>
+</tr>
+<tr>
+<td align="center">0.91372549</td>
+<td align="center">0x074f</td>
+<td align="center">0.91357422</td>
+<td align="center">0.00015130</td>
+</tr>
+</tbody></table>
+<center style="font-size:14px"> 表1：浮点数与定点数的比较 </center><br>
+
+<p>上述结果显示将浮点数转成定点数后，误差在$10^{-5}\sim10^{-4}$范围内，因此采用将浮点数转化为定点数表示的方法是可行的。定点数的计算对<em>FPGA</em>硬件资源十分友好，且16位的定点数相比32位的浮点数可以大大减少了存储资源的占用和数据的加载速度。</p>
+<h3 id="基于ZYNQ-的卷积神经网络加速器架构的设计"><a href="#基于ZYNQ-的卷积神经网络加速器架构的设计" class="headerlink" title="基于ZYNQ 的卷积神经网络加速器架构的设计"></a>基于<em>ZYNQ</em> 的卷积神经网络加速器架构的设计</h3><p>实现 <em>CNN</em> 加速器的整体实现流程主要通过 <em>PC</em> 端将手写数字图片发送至 <em>ZYNQ</em> 平台(包括 <em>ARM(PL)</em> 和 <em>FPGA(PL)</em> 即 <em>ARM</em> 接受图片数据并存放在 <em>DDR</em> 中，通过 <em>AXI-GP</em> 接口发送指令给 <em>FPGA</em> ，<em>FPGA</em> 接受到开始指令从 <em>DDR</em> 中读取图片数据和权值偏置参数，并完成卷积神经网络的计算，计算完成后反馈回 <em>ARM</em> ，最后再由 <em>ARM</em> 将计算结果发送回 <em>PC</em> 端并显示识别结果。其整体架构图如图2所示：<br><img src="/2020/04/01/Review1/overall.png" alt></p>
+<center style="font-size:14px"> 图2：加速器整体结构 </center><br>
+
+<p><em>CNN</em> 加速器的架构主要包括输入缓存，加速器ip以及输出缓存。<em>FPGA</em> 的数据读入主要利用 <em>AXI-HP</em> 接口，从 DDR 中来获取图片数据和参数数据，然后加速器计算完成后再将结果写回 DDR 中，其加速器的架构图如图3所示：<br><img src="/2020/04/01/Review1/ip.png" alt></p>
+<center style="font-size:14px"> 图3：加速器ip外围架构 </center><br>
+
+<h3 id="卷积核计算电路的设计"><a href="#卷积核计算电路的设计" class="headerlink" title="卷积核计算电路的设计"></a>卷积核计算电路的设计</h3><p>首先，整个卷积计算电路单元模块化设计如图4所示。它包括数据缓存模块、卷积计算模块以及数据剔除模块。<br><img src="/2020/04/01/Review1/convPE_module.png" alt></p>
+<center style="font-size:14px">图4：卷积计算单元</center><br>
+
+<h4 id="数据缓存模块"><a href="#数据缓存模块" class="headerlink" title="数据缓存模块"></a>数据缓存模块</h4><p>由于输入图像是以数据流形式输入，而卷积计算通过滑窗对卷积核内的数据进行乘累加操作，因此我用三个移位寄存器组将输入数据流分成三行，对应于 <em>3x3</em> 的卷积核。同理，权重数据流也是类似操作，如图5所示：</p>
+<p><img src="/2020/04/01/Review1/shiftRam.png" alt></p>
+<center style="font-size:14px">图5：输入数据拆分操作</center><br>
+
+<h4 id="卷积计算单元"><a href="#卷积计算单元" class="headerlink" title="卷积计算单元"></a>卷积计算单元</h4><p>卷积计算在硬件电路实现时可以有效利用其并行性，以 <em>3x3</em> 的卷积核为例，常见的硬件实现方案都是使用乘法矩阵和加法树进行计算，以下是两种常见的硬件实现方案：</p>
+<p><img src="/2020/04/01/Review1/convPE.png" alt></p>
+<center style="font-size:14px">图6：两种卷积计算电路方案</center><br>
+
+<p>根据上述两种方案的设计结构，我采用了使用加法器更少的方案二，这样可以有效地节省 <em>FPGA</em> 的硬件资源，并且该方案的思路可以同时应用于池化层的设计。</p>
+<h4 id="数据剔除模块"><a href="#数据剔除模块" class="headerlink" title="数据剔除模块"></a>数据剔除模块</h4><p>另外，在设计过程中发现，在卷积计算过程中，计算完成一行后会从下一行的第一列重新计算，但实际输入数据以数据流的形式输入，依次输入前后数据是连续的，数据流进行中会产生前一行的末尾数据与后一行的开头数据进行卷积的错误结果，因此需要将这些数据进行剔除。根据仿真波形的观察，错误数据的出现是有规律的，因此利用一个FIFO作为缓存，当数据到来的同时产生一个脉冲控制信号，控制FIFO的写入，通过设置剔除信号的占空比来剔除掉错误数据，将正确的数据写入FIFO中，然后在保证数据完整正确的情况下再从FIFO中读出。<br><img src="/2020/04/01/Review1/correct.png" alt></p>
+<center style="font-size:14px">图7：错误数据的形成</center><br>
+
+<p>为了尽可能减少数据剔除中FIFO缓存的等待时间，假设输入图像大小为 ${n}\times{n}$, 卷积核的大小为 ${3}\times{3}$, 读入 $k$ 个数据后自动读出，则正确的输出数据个数为<br>$$<br>l = (n-2)^2\tag{1}<br>$$<br>又 FIFO 读入速度为<br>$$<br>v1 = \frac{n-2}{n}\tag{2}<br>$$<br>FIFO 读出速度为<br>$$<br>v2 = 1\tag{3}<br>$$<br>故为了保证数据不丢失, 则<br>$$<br>\frac{k}{v2-v1} = \frac{l}{v2}\tag{4}<br>$$<br>因此<br>$$<br>k = \frac{2(n-2)^2}{n}(向上取整)\tag{5}<br>$$<br>其中 $k$ 值在 FIFO ip核的 prog full 阈值中设定。根据 prog full 信号,读入 $k$ 个数据后自动读出,这样既保证数据的不丢失，又可以减少缓存带来的等待时间。</p>
+<h3 id="卷积计算电路的仿真"><a href="#卷积计算电路的仿真" class="headerlink" title="卷积计算电路的仿真"></a>卷积计算电路的仿真</h3><p>卷积计算电路仿真波形图如图8所示，其中，输入数据流为$\left[\begin{matrix}1 &amp; 2 &amp; \cdots &amp; 5\\6 &amp; 7 &amp; \cdots &amp; 10\\\vdots &amp; \vdots &amp; \ddots &amp;\vdots\\21 &amp; 22 &amp; \cdots &amp; 25 \end{matrix}\right]$, 权值矩阵为$\left[\begin{matrix}1 &amp; 2 &amp; 3\\1 &amp; 2 &amp; 3\\1 &amp; 2 &amp; 3\end{matrix}\right]$。</p>
+<p><img src="/2020/04/01/Review1/convPEsim.png" alt></p>
+<center style="font-size:14px">图8：卷积计算电路的仿真图</center><br>
+
+<h3 id="总结和计划"><a href="#总结和计划" class="headerlink" title="总结和计划"></a>总结和计划</h3><p>3月主要完成了CNN网络模型的训练和基本卷积电路计算单元的设计，并且完成了数据定点化的工作和卷积计算电路的仿真验证工作,原预期计划内容已基本完成。下一阶段打算完成池化层、全连接层等电路的设计和验证工作，完成整个卷积网络加速器的架构设计，并搭建好加速器外围数据写入和读出的硬件电路，进行上板测试。</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><ul>
+<li>[1] Qiu, Jiantao, et al. “Going deeper with embedded fpga platform for convolutional neural network.” Proceedings of the 2016 ACM/SIGDA International Symposium on Field-Programmable Gate Arrays. 2016. </li>
+<li>[2] Ma, Yufei, et al. “Scalable and modularized RTL compilation of convolutional neural networks onto FPGA.” 2016 26th International Conference on Field Programmable Logic and Applications (FPL). IEEE, 2016.</li>
+<li>[3] Guo K, Zeng S, Yu J, et al. A survey of fpga-based neural network accelerator[J]. arXiv preprint arXiv:1712.08934, 2017.</li>
+<li>[4] Sankaradas, Murugan, et al. “A massively parallel coprocessor for convolutional neural networks.” 2009 20th IEEE International Conference on Application-specific Systems, Architectures and Processors. IEEE, 2009.</li>
+<li>[5] Zhai, Sheping, et al. “Design of Convolutional Neural Network Based on FPGA.” Journal of Physics: Conference Series. Vol. 1168. No. 6. IOP Publishing, 2019.</li>
+<li>[6] 秦华标,曹钦平.基于FPGA的卷积神经网络硬件加速器设计[J].电子与信息学报,2019,41(11):2599-2605.</li>
+<li>[7] 余子健. 基于FPGA的卷积神经网络加速器[D].浙江大学,2016.</li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link-link" href="/tags/%E6%AF%95%E8%AE%BE%E9%A1%B9%E7%9B%AE/" rel="tag">毕设项目</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/04/22/Review2/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Project Review-2 本科毕业设计</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/10/30/paper1/">
+                <span class="level-item">论文笔记</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: 'NbsfS7DMjL0e7wrlEniIL4sS-9Nh9j0Va',
+        app_key: 'SmitvmqoF2K60fdfnw257MKT',
+        placeholder: 'Say something...'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+
+    <div class="card widget column-left is-sticky" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    Catalogue
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#报告内容">
+        <span class="has-mr-6">1</span>
+        <span>报告内容</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#CNN-模型的搭建">
+        <span class="has-mr-6">1.1</span>
+        <span>CNN 模型的搭建</span>
+        </a></li><li>
+        <a class="is-flex" href="#模型的参数获取与数据的定点化">
+        <span class="has-mr-6">1.2</span>
+        <span>模型的参数获取与数据的定点化</span>
+        </a></li><li>
+        <a class="is-flex" href="#基于ZYNQ-的卷积神经网络加速器架构的设计">
+        <span class="has-mr-6">1.3</span>
+        <span>基于ZYNQ 的卷积神经网络加速器架构的设计</span>
+        </a></li><li>
+        <a class="is-flex" href="#卷积核计算电路的设计">
+        <span class="has-mr-6">1.4</span>
+        <span>卷积核计算电路的设计</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#数据缓存模块">
+        <span class="has-mr-6">1.4.1</span>
+        <span>数据缓存模块</span>
+        </a></li><li>
+        <a class="is-flex" href="#卷积计算单元">
+        <span class="has-mr-6">1.4.2</span>
+        <span>卷积计算单元</span>
+        </a></li><li>
+        <a class="is-flex" href="#数据剔除模块">
+        <span class="has-mr-6">1.4.3</span>
+        <span>数据剔除模块</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#卷积计算电路的仿真">
+        <span class="has-mr-6">1.5</span>
+        <span>卷积计算电路的仿真</span>
+        </a></li><li>
+        <a class="is-flex" href="#总结和计划">
+        <span class="has-mr-6">1.6</span>
+        <span>总结和计划</span>
+        </a></li><li>
+        <a class="is-flex" href="#参考文献">
+        <span class="has-mr-6">1.7</span>
+        <span>参考文献</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/mylogo.svg" alt="Project Review-1 本科毕业设计" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021 zhengzb&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_uv">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://samzhengzb.github.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" target="_blank" rel="noopener" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

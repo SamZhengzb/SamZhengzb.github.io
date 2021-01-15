@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 5.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>AI core &amp; RISC Architecture 课程笔记 - Zhengzb&#39;s Blog</title>
+
+
+    <meta name="description" content="Week4：本周主要针对上周学习的RISC处理器的硬件组成，根据分析处理器性能评估公式，学习一些提高处理器的性能的方法，如流水线、定制化数据通路、超标量、乱序发射等。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI core &amp; RISC Architecture 课程笔记">
+<meta property="og:url" content="https://samzhengzb.github.io/2020/08/29/week4/">
+<meta property="og:site_name" content="Zhengzb&#39;s Blog">
+<meta property="og:description" content="Week4：本周主要针对上周学习的RISC处理器的硬件组成，根据分析处理器性能评估公式，学习一些提高处理器的性能的方法，如流水线、定制化数据通路、超标量、乱序发射等。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://samzhengzb.github.io/images/og_image.png">
+<meta property="article:published_time" content="2020-08-29T13:22:20.000Z">
+<meta property="article:modified_time" content="2020-10-13T02:16:52.679Z">
+<meta property="article:author" content="zhengzb">
+<meta property="article:tag" content="课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://samzhengzb.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/github-gist.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/mylogo.svg" alt="AI core &amp; RISC Architecture 课程笔记" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives/">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories/">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags/">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about/">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main">
+<div class="card">	
+    
+	
+    <div class="card-content article ">		
+		
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+				
+				
+                <time class="level-item has-text-grey" datetime="2020-08-29T13:22:20.000Z">2020-08-29</time>
+				
+				
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Course/">Course</a>
+                </div>
+                
+             
+				
+                <span class="level-item has-text-grey">
+                    
+                    
+                    22 minutes read (About 3337 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+				
+				
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                AI core &amp; RISC Architecture 课程笔记
+            
+        </h1>
+        <div class="content">
+            <p><strong>Week4</strong>：本周主要针对上周学习的RISC处理器的硬件组成，根据分析处理器性能评估公式，学习一些提高处理器的性能的方法，如流水线、定制化数据通路、超标量、乱序发射等。<a id="more"></a></p>
+<h2 id="内容回顾"><a href="#内容回顾" class="headerlink" title="内容回顾"></a>内容回顾</h2><p>到目前为止，我们学习了一个基本RISC处理器的硬件组成，该硬件架构也称为单周期的处理器架构。单周期的处理器是在一个周期内完成取指令、指令解码、MAC计算、访问数据、写回数据这些步骤，那么有什么办法可以进一步提高处理器的速度呢？首先，我们来看一下前几周介绍的一个经典的评估指令集执行效率（处理器性能）的公式：<br>  $$\frac{Time}{Program}={\frac{Instructions}{Program}}\times{\frac{Clock\ cycles}{Instruction}}\times{\frac{Time}{Clock\ cycles}}\tag{1}$$</p>
+<p>该公式的左端是程序执行的时间，可以反映处理器的性能。右端通过公式的巧妙拆分，变成了一个由程序包含的指令数量、每条指令执行的时钟周期数、每个周期需要的时间三部分组成的乘积式。对于人工智能芯片而言，一般往往用吞吐率（<strong>Throughput</strong>）来衡量AI芯片的性能，吞吐率的公式就是将上述公式1的分子分母进行互换，并将程序的内容换算成乘加操作（MAC）。转换后的公式如下：<br>  $$Throughput=\frac{Operations}{Time}={\frac{MAC}{Instructions}}\times{\frac{Instruction}{Clock\ cycles}}\times{\frac{Clock\ cycles}{Time}}\tag{2}$$</p>
+<p>从等式的右端可以看出，由三部分组成，分别是每条指令包含的MAC数（MAC指令密度）、每个周期执行的指令数（一般认为“1”，因为每个周期读取一条指令）、每秒执行的周期数（主频）。对于AI计算而言，程序的内容主体为MAC指令，如果没有MAC指令，则完成一次乘累加运算需要两个指令，因此把一条MAC指令即一个乘法和一个加法操作等效为2次操作。</p>
+<p>因此，吞吐率的公式可以简化为<br>  $$Throughput\ (MOPS)={MAC\ Utilizatoin}\times{\ 1 \ }\times{f\ (MHz)}\tag{3}$$</p>
+<p>例如，对于之前提到的 <strong>Load Load MAC</strong> 指令，其MAC Utilization为 $\frac{1}{3}$ ,假设 $f$ 为100MHz，一个MAC等效为2次操作，则该处理器的吞吐率约为66.67MOPS。基于以上分析和基础，下面我们将通过分析吞吐率公式的组成优化处理器的硬件架构。</p>
+<h3 id="流水线技术"><a href="#流水线技术" class="headerlink" title="流水线技术"></a>流水线技术</h3><h4 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h4><p>流水线(Pipeline)技术是指程序在执行时候多条指令重叠进行操作的一种准并行处理实现技术。通过在硬件架构中插入寄存器来切分各个执行阶段（取指令、指令解码、MAC计算、访问数据、写回数据），如图1所示：<br><img src="/2020/08/29/week4/pipeline_hw.png" alt="图1：采用流水线的硬件架构"></p>
+<p>对于采用流水线架构的处理器而言，其单条指令的执行时间几乎没有发生变化，依旧需要完成取指令、指令解码、MAC计算等步骤。但由于插入寄存器后每个步骤执行的时间变得很短，故处理器的主频可以得到很大的提升，假设每一个步骤运行的时间相等，那么采用5段流水线的频率可以提高5倍。当执行多条指令时，并行计算的优势便体现出来，通过随着源源不断地取指令，几乎每个CLK便可以完成一条指令。<br><img src="/2020/08/29/week4/pipeline_plot.png" alt="图2：采用流水线的指令执行示意图"></p>
+<p>同时，<strong>通过吞吐率的公式分析可知，采用流水线的技术实际上很大程度提高了处理器的频率，因此处理器的性能也会随着主频的提高呈同倍率的提升。</strong></p>
+<h4 id="冒险现象（Hazard）"><a href="#冒险现象（Hazard）" class="headerlink" title="冒险现象（Hazard）"></a>冒险现象（Hazard）</h4><p>然而，流水线技术并不是十分完美的，在指令并行执行的过程中，会产生一些“冒险”现象，如数据冒险（Data Hazard）、结构冒险（Structure Hazard）以及控制冒险（Control Hazard）等，带来各种硬件资源冲突，数据的读写顺序等问题。</p>
+<ul>
+<li>结构冒险：所需的硬件正在为之前的指令工作；</li>
+<li>数据冒险：需要等待之前的指令完成数据写入；</li>
+<li>控制冒险：需要根据之前的指令决定接下来的行为；</li>
+</ul>
+<p>这里以数据冒险为例，在上述案例中的计算指令中，指令的组成为Load、Load、MAC，那么其指令流水线的示意图如图3所示。<br><img src="/2020/08/29/week4/data_hazard.png" alt="图3：数据冒险的示意图"></p>
+<p>因此，对于Load、Load、MAC指令而言，在没有等到数据准备好时便执行MAC操作，其结果必然会出现错误。为了解决这个问题，最简单的方法便是在指令中插入空泡指令（Bubble），即一个空指令，为后续指令执行所需的数据争取一定的时间。其空指令插入示意图如图4所示：<br><img src="/2020/08/29/week4/bubble.png" alt="图4：空指令插入的示意图"></p>
+<p>可以看出，空指令的插入在一定程度上解决了数据冒险的问题，但他也导致了处理器的性能的损失，如原先的MAC Utilization为 $\frac{1}{3}$ 现在变成了 $\frac{1}{4}$, 吞吐率降低了25%。同时，我们也发现了流水线技术的使用，一方面给处理器性能带来了很大地提升，但另一方面也造成不少的麻烦和困扰，如下面两点：</p>
+<ul>
+<li>1、处理器性能的损失，同时，对于流水线级数较深的处理器而言，流水线越深，其MAC Utilization的比例会降低地更加严重，使得处理器性能反而得不到很大地提升。</li>
+<li>2、对于Branch/Jump等分支跳转指令而言，由于指令存在着不确定性，对处理器性能有一定的损失。以Branch指令为例，如果两个数相比较不满足条件，则需要跳转到其他指令，那么原先一大堆已获取的指令将全部抛弃重来，一定程度上造成了指令的浪费。</li>
+</ul>
+<h3 id="定制化流水线"><a href="#定制化流水线" class="headerlink" title="定制化流水线"></a>定制化流水线</h3><h4 id="Forwarding"><a href="#Forwarding" class="headerlink" title="Forwarding"></a>Forwarding</h4><p>对于上述由于data hazard造成MAC Untilization 大幅降低的问题，其实是有办法解决的，那就是采用定制化的流水线来改进原先的硬件结构。<br>如图5所示，由于寄存器R3和R4的值在Cycle3和Cycle4便可以得到，因此我们可以提前将寄存器R3和R4的值直接连接到ALU中的计算单元，同时保持原先的数据通路，在Cycle4和Cycle5依旧写回到Regs File当中。在经典的计算机体系结构中，这种方法也叫做”<strong>forwarding</strong>”<br><img src="/2020/08/29/week4/forwarding.png" alt="图5：定制化流水线示意图"><br>那么，在实际处理器中，我们该如何去实现这种硬件结构呢？对于某一段程序，我们在优化硬件电路时，最主要的是优化程序中最频繁出现的程序块，在本节讨论的范围中就是Load、Load、MAC指令，因此对于这部分优化，我们可以采用移位寄存器的方式，来提前保存从Regs File中读取的R3和R4，具体硬件电路如图6所示。<br><img src="/2020/08/29/week4/forwarding_hw.png" alt="图6：定制化流水线对应的数据通路"></p>
+<h4 id="Aggressive-Target"><a href="#Aggressive-Target" class="headerlink" title="Aggressive Target"></a>Aggressive Target</h4><p>到目前为止，我们用定制化的流水线解决了data hazard的问题，其MAC Utilization已经变到了原先的 $\frac{1}{3}$,那么我们还能进一步提高MAC Utilization吗？答案当然是可以的。如图7所示，我们可以将指令集稍作修改，将第二条Load指令与MAC指令进行合并，作为一条新的指令Load-MAC，那么再Load之后的数据直接与上一次Load的数据进行运算，计算完成后再写回Regs File，那么此时MAC Utilization就变成了 $\frac{1}{2}$。那么如果有Load-Load-MAC指令的话，其MAC Utilization就变成了 $100%$。<br><img src="/2020/08/29/week4/pipeline2.png" alt="图7：Load-MAC指令示意图"><br>此时，当Load MAC指令合并后，也引起了一个思考？因为第2周学习的有关RISC和CISC的区别时，一个重要的区分标准时ALU是否直接对存储器进行访问，那么当Load MAC变成一条指令后，此时的处理器是否还是RISC处理器？其实这两者都有自己的解释方式。</p>
+<ul>
+<li>对于CISC而言，是把Load-MAC指令看作是一条MAC指令，那么此时MAC指令不再需要进行Load指令取数再进行MAC操作，也就是说通过MAC指令直接可以对存储器进行访问，因此相当于是CISC处理器的操作。</li>
+<li>作为RISC而言，虽然Load-MAC指令是一条指令，但实际ALUM所需要的数据依旧是通过与Load指令相同的操作获取，这本质上和先Load指令再MAC指令没有区别，因此仍就是RISC处理器。</li>
+</ul>
+<p>所谓的CISC也好，RISC也好，无非是站在不同角度来解释，因此是各有各的道理（我本人更加倾向于RISC的解释^-^），我们只要理解其数据存取的本质就行。</p>
+<h3 id="超标量处理器"><a href="#超标量处理器" class="headerlink" title="超标量处理器"></a>超标量处理器</h3><p>现在，我们再来看一下吞吐率的公式<br>  $$Throughput\ (MOPS)={MAC \ Utilizatoin}\times{\ 1 \ }\times{f\ (MHz)}$$</p>
+<p>与最原始的处理器吞吐率相比，通过定制化流水线后，MAC Utilization已经变为了 $\frac{1}{2}$, $f$已经变为了原来的4倍，假设 $f$ 为100MHz，那么现在的吞吐率就变为了400MOPS。那么本节我们来看一下另一种优化吞吐率的方法。</p>
+<h4 id="超标量处理器的概念"><a href="#超标量处理器的概念" class="headerlink" title="超标量处理器的概念"></a>超标量处理器的概念</h4><ul>
+<li>标量处理器：每个周期执行一条指令的处理器</li>
+<li>超标量处理器：每个周期执行多条指令的处理器，同时执行的多条指令使用的是不同硬件单元</li>
+</ul>
+<p>因此，对于超标量处理器而言，如果多条指令之间存在着数据依赖关系，或者使用的是同一个硬件单元，那么就无法使用超标量技术。</p>
+<h4 id="超标量流水线（Superscalar-Pipeline）"><a href="#超标量流水线（Superscalar-Pipeline）" class="headerlink" title="超标量流水线（Superscalar Pipeline）"></a>超标量流水线（Superscalar Pipeline）</h4><p>以Load-MAC指令为例，使用超标量流水线架构在一个时钟周期内会执行多条指令，如图8所示。<br><img src="/2020/08/29/week4/superscalar.png" alt="图8：超标量流水线示意图"><br>那么相比于原先的流水线架构而言，每个周期执行指令数为“2”，则处理器的吞吐量为<br>  $$Throughput\ (MOPS)=2\times{\frac{1}{2}}\times{\ 2 \ }\times{400\ (MHz)}=800MOPS$$</p>
+<p>在具体的硬件结构实现中，由于两条指令均需要对Memory进行访问，因此在硬件架构中需要使用两个Memory单元，以满足需求。具体结构图如图9所示。<br><img src="/2020/08/29/week4/superscalar_hw.png" alt="图9：超标量流水线示意图"></p>
+<h4 id="乱序发射（OoO）"><a href="#乱序发射（OoO）" class="headerlink" title="乱序发射（OoO）"></a>乱序发射（OoO）</h4><p>由于之前的指令都是顺序执行的，因此指令间并行时产生冒险现象时，后面的指令就需要等待。如果采用乱序发射技术，即将后面没有相关性的指令先执行，就可以尽可能地提高硬件利用率，因此它能够提高处理器执行指令的效率。</p>
+<blockquote>
+<p>乱序发射(Out of Order)是指CPU采用了允许将多条指令不按程序规定的顺序分开发送给各相应电路单元处理的技术。</p>
+</blockquote>
+<p>当然，乱序发射也可以解决其它问题，如：在现代高性能的处理器中，流水线级很长，由于存在L1、L2 catche，导致对Memory的访问是不确定的，这就导致了如Load指令与其他指令执行的时间会不一致，对Memory的访问时间有可能需要好几个周期。通过乱序发射技术，可以将处于空闲状态的指令提前执行，如下图10所示。这样提高了硬件的利用率，也就提高了指令的执行效率。</p>
+<p><img src="/2020/08/29/week4/OoO.png" alt="图10：乱序发射"></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link-link" href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" rel="tag">课程笔记</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/10/19/Metrics-DSA/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Key Metrics and Design Objectives for DNN Accelerator</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/08/21/week3/">
+                <span class="level-item">AI core &amp; RISC Architecture 课程笔记</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: 'NbsfS7DMjL0e7wrlEniIL4sS-9Nh9j0Va',
+        app_key: 'SmitvmqoF2K60fdfnw257MKT',
+        placeholder: 'Say something...'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+
+    <div class="card widget column-left is-sticky" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    Catalogue
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#内容回顾">
+        <span class="has-mr-6">1</span>
+        <span>内容回顾</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#流水线技术">
+        <span class="has-mr-6">1.1</span>
+        <span>流水线技术</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#基本概念">
+        <span class="has-mr-6">1.1.1</span>
+        <span>基本概念</span>
+        </a></li><li>
+        <a class="is-flex" href="#冒险现象（Hazard）">
+        <span class="has-mr-6">1.1.2</span>
+        <span>冒险现象（Hazard）</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#定制化流水线">
+        <span class="has-mr-6">1.2</span>
+        <span>定制化流水线</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Forwarding">
+        <span class="has-mr-6">1.2.1</span>
+        <span>Forwarding</span>
+        </a></li><li>
+        <a class="is-flex" href="#Aggressive-Target">
+        <span class="has-mr-6">1.2.2</span>
+        <span>Aggressive Target</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#超标量处理器">
+        <span class="has-mr-6">1.3</span>
+        <span>超标量处理器</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#超标量处理器的概念">
+        <span class="has-mr-6">1.3.1</span>
+        <span>超标量处理器的概念</span>
+        </a></li><li>
+        <a class="is-flex" href="#超标量流水线（Superscalar-Pipeline）">
+        <span class="has-mr-6">1.3.2</span>
+        <span>超标量流水线（Superscalar Pipeline）</span>
+        </a></li><li>
+        <a class="is-flex" href="#乱序发射（OoO）">
+        <span class="has-mr-6">1.3.3</span>
+        <span>乱序发射（OoO）</span>
+        </a></li></ul></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/mylogo.svg" alt="AI core &amp; RISC Architecture 课程笔记" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021 zhengzb&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_uv">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://samzhengzb.github.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" target="_blank" rel="noopener" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

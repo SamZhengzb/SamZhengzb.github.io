@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 5.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Key Metrics and Design Objectives for DNN Accelerator - Zhengzb&#39;s Blog</title>
+
+
+    <meta name="description" content="本文详细介绍了评估DNN加速器时需要考虑的指标和影响因素，并讨论了在设计DNN加速器时应该如何做trade-off。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Key Metrics and Design Objectives for DNN Accelerator">
+<meta property="og:url" content="https://samzhengzb.github.io/2020/10/19/Metrics-DSA/">
+<meta property="og:site_name" content="Zhengzb&#39;s Blog">
+<meta property="og:description" content="本文详细介绍了评估DNN加速器时需要考虑的指标和影响因素，并讨论了在设计DNN加速器时应该如何做trade-off。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://samzhengzb.github.io/images/og_image.png">
+<meta property="article:published_time" content="2020-10-19T12:56:30.000Z">
+<meta property="article:modified_time" content="2020-10-22T07:31:48.337Z">
+<meta property="article:author" content="zhengzb">
+<meta property="article:tag" content="CNN Accelerator">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://samzhengzb.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/github-gist.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/mylogo.svg" alt="Key Metrics and Design Objectives for DNN Accelerator" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives/">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories/">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags/">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about/">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main">
+<div class="card">	
+    
+	
+    <div class="card-content article ">		
+		
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+				
+				
+                <time class="level-item has-text-grey" datetime="2020-10-19T12:56:30.000Z">2020-10-19</time>
+				
+				
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Paper-notes/">Paper notes</a>
+                </div>
+                
+             
+				
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 minutes read (About 1843 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+				
+				
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Key Metrics and Design Objectives for DNN Accelerator
+            
+        </h1>
+        <div class="content">
+            <p>本文详细介绍了评估DNN加速器时需要考虑的指标和影响因素，并讨论了在设计DNN加速器时应该如何做trade-off。</p>
+<a id="more"></a>
+
+<h2 id="Key-Metrics-and-Design-Objectives"><a href="#Key-Metrics-and-Design-Objectives" class="headerlink" title="Key Metrics and Design Objectives"></a>Key Metrics and Design Objectives</h2><p>目前，深度学习加速器不断涌现，各种“<em>XPU</em>”深度学习加速器都有自己独特的架构优化，那么我们应该如何评估一款加速器的性能以及比较不同DNN加速器之间的好坏呢？或者说在设计一款DNN加速器时需要考虑到哪些因素呢？通常，一款通用处理器的性能我们往往用$FLOPS/W$或者$TOPS/W$来表示，但只关注加速器的性能是不够全面的，我们需要一个全面并且客观的体系来评估加速器各方面的特点，<strong>因此研究DNN加速器的评估指标，制定相应的评估系统就显得十分重要</strong>。在DNN加速器的设计过程中，加速器设计的好坏与许多因素有关，主要包括</p>
+<ul>
+<li>精度（accuracy）</li>
+<li>吞吐率（throughput）</li>
+<li>延迟（latency）</li>
+<li>能效（energy efficiency）</li>
+<li>功耗（power）</li>
+<li>成本（cost）</li>
+<li>灵活性（flexibility）</li>
+<li>可拓展性（scalability）</li>
+</ul>
+<p>下面我们将详细介绍这些因素是如何影响DNN加速器的性能和能耗，以及讨论我们在设计DNN加速器时应该如何做折中考虑（trade-off）。</p>
+<h3 id="Accuracy"><a href="#Accuracy" class="headerlink" title="Accuracy"></a>Accuracy</h3><p><strong>准确率（accuracy）是对给定任务下识别结果质量的评判</strong>。在不用任务下，准确率的定义是不一样的。例如，在图像分类任务中，准确率的定义是正确分类图片的百分比；在目标检测任务中，准确率是各类AP值的平均值（<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/53405779">mean average precision，mAP</a>）。</p>
+<p><strong>准确率的影响因素主要包括任务难度和数据集</strong>。例如，在<em>ImageNet</em>上的分类任务比在<em>MNIST</em>上的分类任务要难很多，因此准确率会低很多；目标检测任务和语意分割任务会比图像分类任务要复杂很多，因此准确率也会低一些。</p>
+<h3 id="Throughput"><a href="#Throughput" class="headerlink" title="Throughput"></a>Throughput</h3><p><strong>吞吐率（Throughput）表示在给定时间下处理器能够处理数据量的大小或执行任务的数量</strong>。即表示在单位时间下能够执行计算的数量。通常，吞吐率的表达式为：<br>$$Throughput=\frac{operations}{second}$$</p>
+<p>在深度学习推理计算过程中，其执行的操作数等效为推理（inference）的次数，因此，吞吐率可以表示为：<br>$$Throughput=\frac{inferences}{second}\tag{1}$$</p>
+<p>高吞吐率是我们想要的，因为在一些实时任务下，对数据的实时处理要求较高，高吞吐率意味着在单位时间内我们能够处理的数据更多，那么我们就可以实现高帧率或者高性能处理数据，这在无人驾驶、金融、国防安全等领域有着重要的意义。</p>
+<p>那么我们该如何设计高吞吐率的处理器呢？我们将吞吐率的公式进行分解，具体如下：<br>$$\frac{inferences}{second}={\frac{operations}{second}}\times{\frac{1}{\frac{operations}{inference}}}\tag{2}$$</p>
+<p>其中，<em>operations per second</em> 由DNN加速器和DNN模型决定；<em>operations per inference</em> 由DNN模型决定；</p>
+<blockquote>
+<p><strong>attention</strong>：式中这两个<em>operations</em>是不一样的。细心的读者可能会发现，如果将两个<em>operations</em>等同消掉，将右边式子还原，分子就会变成<em>inference</em>，而左边分子是<em>inferences</em>，那么两边就不相等了。<strong>为什么会这样</strong>？这是因为前面<em>operations per second</em>中的<em>operations</em>是包含倍数因子的，和<em>inferences</em>类似。举个例子，<em>inferences</em>这个值可以改变的，一般是大于1，而<em>inference</em>是单次推理（即为1），因此<em>inferences</em>对<em>inference</em>有个倍数关系。同理，<em>operations per inference</em>中的<em>operations</em>是由模型确定的，如果模型确定就是一个常量，但是前面<em>operations per second</em>中的<em>operations</em>肯定不是一个常量，它是受硬件设计影响的，两者存在一个倍数关系，因此综上所述，式中这两个<em>operations</em>是不相等的，不能等同处理。</p>
+</blockquote>
+<p>作为DNN加速器的硬件设计者，我们主要关注 <em>operations per second</em> 这个项，它可以进一步分解为：<br>$$\frac{operations}{second}=(\frac{1}{\frac{cycles}{operation}}\times{\frac{cycles}{second}})\times PE_s\times PE_s\ utilization\tag{3}$$</p>
+<p>其中，第一项（括号）反映的是单个PE的峰值吞吐率，它由 <em>cycles per operation</em> 和 <em>cycles per second</em> 组成；第二项是PE单元的数量，反映计算的并行程度；第三项是PE单元的利用率，它由DNN加速器的架构设计决定。</p>
+<ul>
+<li>对于第一项而言，<em>cycles per operation</em> 是由PE单元中MAC的设计决定的，如采用流水线结构的MAC每个 <em>operation</em> 需要的 <em>cycles</em> 就会很低，<em>cycles per second</em> 即处理器主频$f$(MHz)，可以通过优化电路的关键路径来提高。</li>
+<li>对于第二项而言，PEs的数量提升，会有更多的PE单元同时参与计算，会提高整个加速器的吞吐率。但是在整个芯片面积给定和单个PE面积不变的情况下，PE单元的数量增加通过增加PE阵列的面积，那么会造成片上存储面积的减少，这会进一步影响PE单元的利用率，从而影响到整个加速器的吞吐率。</li>
+</ul>
+<p>对于第三项，我们单独来讨论，因为这涉及到DNN加速器的架构，与我们的设计有很大关系，也是我们关注的重点。理想情况下，当PE的利用率达到100%时，尽可能地提高PE的数量和单个PE的峰值吞吐率，可以实现吞吐率的最大值。但是事实上，PE的利用率并不能完全达到100%,实际的吞吐率也取决于实际PE的利用率。对于PE的利用率，它可以分解为：<br>$$PE_s\ utilization=\frac{number\ of\ active PE_s}{number\ of\ PE_s}\times active\ PE_s\ utilization\tag{4}$$</p>
+<ul>
+<li>第一项反映了处理器架构将计算任务分配给PE单元的能力，参与计算的PE越多，那么PE的利用率就会越高，它由DNN的架构决定。例如通过网络映射的方法，如果硬件架构支持DNN模型不同计算层的结构，那么就可以让更多PE单元参与计算；</li>
+<li>第二项反映了被激活的PE处理计算任务的效率，它与数据的带宽和存储器的延迟有关。</li>
+</ul>
+<h3 id="Latency"><a href="#Latency" class="headerlink" title="Latency"></a>Latency</h3><h3 id="Energy-efficiency"><a href="#Energy-efficiency" class="headerlink" title="Energy efficiency"></a>Energy efficiency</h3><h3 id="Power-consumption"><a href="#Power-consumption" class="headerlink" title="Power consumption"></a>Power consumption</h3><h3 id="Hardware-cost"><a href="#Hardware-cost" class="headerlink" title="Hardware cost"></a>Hardware cost</h3><h3 id="Flexibility"><a href="#Flexibility" class="headerlink" title="Flexibility"></a>Flexibility</h3><h3 id="Scalability"><a href="#Scalability" class="headerlink" title="Scalability"></a>Scalability</h3><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><blockquote>
+<p>[1] V. Sze, Y. -H. Chen, T. -J. Yang and J. S. Emer, “How to Evaluate Deep Neural Network Processors: TOPS/W (Alone) Considered Harmful,” in IEEE Solid-State Circuits Magazine, vol. 12, no. 3, pp. 28-41, Summer 2020, doi: 10.1109/MSSC.2020.3002140.</p>
+</blockquote>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link-link" href="/tags/CNN-Accelerator/" rel="tag">CNN Accelerator</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/08/29/week4/">
+                <span class="level-item">AI core &amp; RISC Architecture 课程笔记</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: 'NbsfS7DMjL0e7wrlEniIL4sS-9Nh9j0Va',
+        app_key: 'SmitvmqoF2K60fdfnw257MKT',
+        placeholder: 'Say something...'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+
+    <div class="card widget column-left is-sticky" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    Catalogue
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#Key-Metrics-and-Design-Objectives">
+        <span class="has-mr-6">1</span>
+        <span>Key Metrics and Design Objectives</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Accuracy">
+        <span class="has-mr-6">1.1</span>
+        <span>Accuracy</span>
+        </a></li><li>
+        <a class="is-flex" href="#Throughput">
+        <span class="has-mr-6">1.2</span>
+        <span>Throughput</span>
+        </a></li><li>
+        <a class="is-flex" href="#Latency">
+        <span class="has-mr-6">1.3</span>
+        <span>Latency</span>
+        </a></li><li>
+        <a class="is-flex" href="#Energy-efficiency">
+        <span class="has-mr-6">1.4</span>
+        <span>Energy efficiency</span>
+        </a></li><li>
+        <a class="is-flex" href="#Power-consumption">
+        <span class="has-mr-6">1.5</span>
+        <span>Power consumption</span>
+        </a></li><li>
+        <a class="is-flex" href="#Hardware-cost">
+        <span class="has-mr-6">1.6</span>
+        <span>Hardware cost</span>
+        </a></li><li>
+        <a class="is-flex" href="#Flexibility">
+        <span class="has-mr-6">1.7</span>
+        <span>Flexibility</span>
+        </a></li><li>
+        <a class="is-flex" href="#Scalability">
+        <span class="has-mr-6">1.8</span>
+        <span>Scalability</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Reference">
+        <span class="has-mr-6">2</span>
+        <span>Reference</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/mylogo.svg" alt="Key Metrics and Design Objectives for DNN Accelerator" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021 zhengzb&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_uv">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://samzhengzb.github.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" target="_blank" rel="noopener" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

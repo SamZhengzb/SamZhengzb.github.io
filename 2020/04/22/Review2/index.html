@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 5.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Project Review-2 本科毕业设计 - Zhengzb&#39;s Blog</title>
+
+
+    <meta name="description" content="报告内容 卷积计算单元的上板测试 池化电路的设计与仿真 卷积层架构的设计与仿真 卷积层电路的结果验证 总结和计划">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Project Review-2 本科毕业设计">
+<meta property="og:url" content="https://samzhengzb.github.io/2020/04/22/Review2/">
+<meta property="og:site_name" content="Zhengzb&#39;s Blog">
+<meta property="og:description" content="报告内容 卷积计算单元的上板测试 池化电路的设计与仿真 卷积层架构的设计与仿真 卷积层电路的结果验证 总结和计划">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://samzhengzb.github.io/images/og_image.png">
+<meta property="article:published_time" content="2020-04-22T05:31:10.000Z">
+<meta property="article:modified_time" content="2021-01-15T13:30:56.218Z">
+<meta property="article:author" content="zhengzb">
+<meta property="article:tag" content="毕设项目">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://samzhengzb.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/github-gist.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/mylogo.svg" alt="Project Review-2 本科毕业设计" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives/">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories/">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags/">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about/">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main">
+<div class="card">	
+    
+	
+    <div class="card-content article ">		
+		
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+				
+				
+                <time class="level-item has-text-grey" datetime="2020-04-22T05:31:10.000Z">2020-04-22</time>
+				
+				
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Project/">Project</a>
+                </div>
+                
+             
+				
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 minutes read (About 1862 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+				
+				
+				<i class="fas fa-arrow-alt-circle-up" style="color:#3273dc"></i>
+				<span class="level-item" style="color:#3273dc">&nbsp;Top</span>
+				
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Project Review-2 本科毕业设计
+            
+        </h1>
+        <div class="content">
+            <h2 id="报告内容"><a href="#报告内容" class="headerlink" title="报告内容"></a>报告内容</h2><ul>
+<li>卷积计算单元的上板测试</li>
+<li>池化电路的设计与仿真</li>
+<li>卷积层架构的设计与仿真</li>
+<li>卷积层电路的结果验证</li>
+<li>总结和计划<a id="more"></a>
+
+</li>
+</ul>
+<h3 id="卷积计算单元的上板测试"><a href="#卷积计算单元的上板测试" class="headerlink" title="卷积计算单元的上板测试"></a>卷积计算单元的上板测试</h3><p>卷积计算电路的测试电路主要包括由ARM、输入输出 <em>FIFO<em>、</em>DMA</em> 电路以及卷积加速电路。具体流程为ARM 端发送开始指令给卷积加速器，加速器从 <em>DDR</em> 中读取数据 ，利用<em>FIFO</em> 输入数据和权重，经卷积计算电路后将数据再写入 <em>FIFO</em> 中，并写回 <em>DDR</em> 中，写回后同时反馈给 ARM ， ARM 端再读取数据，通过串口打印出计算后的数据，测试电路的结果图如下：</p>
+<p><img src="/2020/04/22/Review2/ip_test.png" alt></p>
+<center style="font-size:14px"> 图1：卷积计算单元测试电路效果图 </center>
+
+
+<h3 id="池化电路的设计与仿真"><a href="#池化电路的设计与仿真" class="headerlink" title="池化电路的设计与仿真"></a>池化电路的设计与仿真</h3><p>池化电路的设计与之前的卷积电路架构类似，也是利用移位寄存器进行滑窗操作，不同的是池化区域的大小为 <em>2x2</em>，且无权重参数，因此不需要乘法矩阵和加法树。本项目中的卷积神经网络采用的是<strong>最大值池化</strong>，因此只要将原先乘法器的位置换成最大值比较器即可，该池化电路设计原理图如下：</p>
+<p><img src="/2020/04/22/Review2/maxpooling.png" alt></p>
+<center style="font-size:14px"> 图2：池化电路设计图 </center><br>
+
+<p>由于在池化操作中，一般常采用步长为 <em>2</em> 的滑窗池化，所以相比于之前卷积计算中的步长为<em>1</em>，需要在原来的数据剔除电路中进行改进，将其进行一般化，即考虑步长，卷积核大小，输入特征图尺寸因素，得到一个通用的数据剔除电路。具体分析如下: </p>
+<p>为了尽可能减少数据剔除中 <em>FIFO</em> 缓存的等待时间，假设输入图像大小为 ${n}\times{n}$, 卷积核的大小为 ${m}\times{m}$, 步长为 $u$, 读入 $k$ 个数据后自动读出，则正确的输出数据个数为<br>$$<br>l = (\frac{n-m}{u}+1)^2\tag{1}<br>$$<br>又 <em>FIFO</em> 读入速度为<br>$$<br>v1 = \frac{\frac{n-m}{u}+1}{un}\tag{2}<br>$$<br><em>FIFO</em> 读出速度为<br>$$<br>v2 = 1\tag{3}<br>$$<br>故为了保证数据不丢失，则<br>$$<br>\frac{k}{v2-v1} = \frac{l}{v2}\tag{4}<br>$$<br>因此<br>$$<br>k = (1-\frac{n-m+u}{u^2n})({\frac{n-m}{u}+1})^2(向上取整)\tag{5}<br>$$<br>其中 $k$ 值在 <em>FIFO ip</em> 核的 <em>prog full</em> 阈值中设定。根据 <em>prog full</em> 信号，读入 $k$ 个数据后自动读出。这样既保证数据的不丢失，又可以减少缓存带来的等待时间。</p>
+<div style="page-break-after: always;"></div>
+
+<h3 id="卷积层电路的设计"><a href="#卷积层电路的设计" class="headerlink" title="卷积层电路的设计"></a>卷积层电路的设计</h3><p>本项目中的网络模型结构有5层（除去输入输出层），包括卷积层1，池化层1，卷积层2，池化层2，全连接层。加速卷积层计算是加速该网络的核心，在卷积运算中，我们经常要对数据进行读写操作，因此需要对数据进行复用，根据卷积运算的并行方式，即有如下三种数据复用的方式：</p>
+<p><img src="/2020/04/22/Review2/data_reuse.png" alt></p>
+<center style="font-size:14px"> 图3：卷积运算中的数据复用方式 </center><br>
+
+<p>考虑到使用的FPGA开发版资源有限（DSP Slice数量为80），我设计了一个并行度为8的卷积层电路，即可同时进行8个卷积计算，我将其称之为卷积核列表（ConvPE List）。卷积核列表中包括8个卷积计算单元，每个计算单元需要9个乘法器，一共使用了72个DSP Slice，仅卷积层DSP利用率达90%。</p>
+<p>同时，为了提高实现并行计算的效果，我将数据位宽统一为128（16x8）位。其中16是单个数据的位宽，8是卷积计算单元的个数。根据卷积神经网络的结构，卷积层含有两层，因此需要采用卷积核列表重复利用的方式，即一个电路供两次卷积层计算使用。通过上述分析，我设计了卷积层硬件电路，如图4所示：</p>
+<p><img src="/2020/04/22/Review2/convlayer.png" alt></p>
+<center style="font-size:14px"> 图4：卷积层电路架构 </center><br>
+
+
+<p>根据网络结构，第一层为单通道特征图像输入，卷积核个数为8，则一次卷积核列表计算就可以完成卷积层1 的计算，之后再经过8个 <em>Relu</em> 和池化电路，得到8个通道的图像输出。同时，为了尽可能地减少在数据的读取加载中消耗太多时间，我将卷积层1的输出结果存放在了FPGA的片上RAM中（Block  RAM），以方便后续计算层快速读取数据，具体硬件电路架构图如下：</p>
+<p><img src="/2020/04/22/Review2/convlayer1.png" alt></p>
+<center style="font-size:14px"> 图5：卷积层1电路架构 </center><br>
+
+<p>对于第二层网络，由于此时输入特征图像的通道数为8，卷积核个数为16，因为开发板的DSP资源有限，因此完成卷积层2的计算需要调用16次的卷积核列表，加法树，<em>Relu</em>和池化电路。数据的输入由之前存放在BRAM的图像缓存和权值缓存构成。具体的硬件电路架构图如下：</p>
+<p><img src="/2020/04/22/Review2/convlayer2.png" alt></p>
+<center style="font-size:14px"> 图6：卷积层2电路架构 </center><br>
+
+<h3 id="卷积层电路的结果验证"><a href="#卷积层电路的结果验证" class="headerlink" title="卷积层电路的结果验证"></a>卷积层电路的结果验证</h3><p>卷积层电路的验证与调试过程中，主要利用 Tensorflow 训练好的参数进行验证，打印输出各层的结果，并转换为16位的定点数进行比较。电路调试通过在仿真波形图中观察各个控制信号、输入输出数据的长度、数据同步性等。其最终仿真结果的波形图如下：</p>
+<p><img src="/2020/04/22/Review2/convlayer_sim.png" alt></p>
+<center style="font-size:14px"> 图7：卷积层计算仿真 </center><br>
+
+<p>将上述卷积加速器的计算结果与 Tensorflow 输出的结果进行对比，以其中一个输出通道为例（大小为 6x6)，对比结果如下：</p>
+<ul>
+<li>FPGA卷积加速器计算结果：</li>
+</ul>
+<p>$$<br>\left[\begin{matrix}<br>  0.0000 &amp; 0.0000 &amp; 0.1548 &amp; 0.0000 &amp; 1.4199 &amp; 1.6777\\0.2222 &amp; 1.2314 &amp; 0.6880 &amp; 0.5923 &amp; 2.1265 &amp; 1.4238\\1.2700 &amp; 1.7573 &amp; 0.0000 &amp; 2.1201 &amp; 2.2896 &amp; 0.4580\\1.6187 &amp; 1.3481 &amp; 1.9756 &amp; 3.1812 &amp; 2.0439 &amp; 0.4443\\1.2183 &amp; 0.8091 &amp; 0.7070 &amp; 1.6250 &amp; 0.9170 &amp; 0.0137\\0.0024 &amp; 0.0615 &amp; 0.6807 &amp; 1.8628 &amp; 0.3379 &amp; 0.0000<br>\end{matrix}\right]<br>$$</p>
+<ul>
+<li>Tensorflow计算结果：</li>
+</ul>
+<p>$$<br>\left[\begin{matrix}<br>    0.0000 &amp; 0.0000 &amp; 0.1562 &amp; 0.0000 &amp; 1.4209 &amp; 1.6794\\0.2204 &amp; 1.2317 &amp; 0.6900 &amp; 0.5948 &amp; 2.1252 &amp; 1.4247\\1.2713 &amp; 1.7572 &amp; 0.0000 &amp; 2.1179 &amp; 2.2903 &amp; 0.0122\\1.6156 &amp; 1.3483 &amp; 1.9769 &amp; 3.1808 &amp; 2.0455 &amp; 0.0000\\1.2183 &amp; 0.8096 &amp; 0.7073 &amp; 1.6252 &amp; 0.9191 &amp; 0.0143\\0.0035 &amp; 0.0623 &amp; 0.7224 &amp; 1.8634 &amp; 0.3399 &amp; 0.0000<br>\end{matrix}\right]<br>$$</p>
+<div style="page-break-after: always;"></div>
+
+<ul>
+<li>两者误差结果：</li>
+</ul>
+<p>$$<br>\left[\begin{matrix}<br>    0.0000 &amp;  0.0000 &amp; -0.0015 &amp;  0.0000 &amp; -0.0010 &amp; -0.0017\\ 0.0018 &amp; -0.0003 &amp; -0.0020 &amp; -0.0026 &amp;  0.0013 &amp; -0.0009\\-0.0013 &amp;  0.0001 &amp;  0.0000 &amp;  0.0022 &amp; -0.0008 &amp;  0.4458\\ 0.0031 &amp; -0.0002 &amp; -0.0013 &amp;  0.0003 &amp; -0.0016 &amp;  0.4443\\-0.0000 &amp; -0.0005 &amp; -0.0002 &amp; -0.0002 &amp; -0.0021 &amp; -0.0007\\-0.0010 &amp; -0.0008 &amp; -0.0417 &amp; -0.0006 &amp; -0.0020 &amp;  0.0000<br>\end{matrix}\right]<br>$$</p>
+<p>由上述结果可知，该卷积层电路计算基本正确，考虑到卷积神经网络具有一定的鲁棒性，因此在误差不大的情况下，对最终的识别准确率影响不会很大。</p>
+<h3 id="总结和计划"><a href="#总结和计划" class="headerlink" title="总结和计划"></a>总结和计划</h3><p>本月主要完成了加速器外围测试电路的搭建，数据剔除电路的通用化设计，卷积层电路的设计与仿真验证工作，对之前的电路进行了完善和改进，使卷积加速器更加通用化，以便可以适应各种不同的卷积计算，具有更广泛的应用前景。之后计划根据搭建好的测试平台，完成整个卷积加速器的上板测试，并与电脑 CPU 计算进行对比，若加速效果达到预期，则开始着手毕业论文的撰写，并进一步完善卷积神经网络加速器。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link-link" href="/tags/%E6%AF%95%E8%AE%BE%E9%A1%B9%E7%9B%AE/" rel="tag">毕设项目</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/04/23/Quantization/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Project Review-3 本科毕业设计</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/04/01/Review1/">
+                <span class="level-item">Project Review-1 本科毕业设计</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: 'NbsfS7DMjL0e7wrlEniIL4sS-9Nh9j0Va',
+        app_key: 'SmitvmqoF2K60fdfnw257MKT',
+        placeholder: 'Say something...'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+
+    <div class="card widget column-left is-sticky" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    Catalogue
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#报告内容">
+        <span class="has-mr-6">1</span>
+        <span>报告内容</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#卷积计算单元的上板测试">
+        <span class="has-mr-6">1.1</span>
+        <span>卷积计算单元的上板测试</span>
+        </a></li><li>
+        <a class="is-flex" href="#池化电路的设计与仿真">
+        <span class="has-mr-6">1.2</span>
+        <span>池化电路的设计与仿真</span>
+        </a></li><li>
+        <a class="is-flex" href="#卷积层电路的设计">
+        <span class="has-mr-6">1.3</span>
+        <span>卷积层电路的设计</span>
+        </a></li><li>
+        <a class="is-flex" href="#卷积层电路的结果验证">
+        <span class="has-mr-6">1.4</span>
+        <span>卷积层电路的结果验证</span>
+        </a></li><li>
+        <a class="is-flex" href="#总结和计划">
+        <span class="has-mr-6">1.5</span>
+        <span>总结和计划</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/mylogo.svg" alt="Project Review-2 本科毕业设计" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021 zhengzb&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_uv">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://samzhengzb.github.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" target="_blank" rel="noopener" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 5.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Project Review-3 本科毕业设计 - Zhengzb&#39;s Blog</title>
+
+
+    <meta name="description" content="在神经网络中，存在着大量的参数，如果这些参数都用浮点数表示，将会消耗大量的硬件资源，这对于硬件资源有限的嵌入式平台是十分不友好的。在实际硬件实现中，往往采用将浮点数进行定点化处理，用定点数来表示浮点数。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Project Review-3 本科毕业设计">
+<meta property="og:url" content="https://samzhengzb.github.io/2020/04/23/Quantization/">
+<meta property="og:site_name" content="Zhengzb&#39;s Blog">
+<meta property="og:description" content="在神经网络中，存在着大量的参数，如果这些参数都用浮点数表示，将会消耗大量的硬件资源，这对于硬件资源有限的嵌入式平台是十分不友好的。在实际硬件实现中，往往采用将浮点数进行定点化处理，用定点数来表示浮点数。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://samzhengzb.github.io/images/og_image.png">
+<meta property="article:published_time" content="2020-04-23T05:31:10.000Z">
+<meta property="article:modified_time" content="2021-01-15T13:31:00.453Z">
+<meta property="article:author" content="zhengzb">
+<meta property="article:tag" content="毕设项目">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://samzhengzb.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/github-gist.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/mylogo.svg" alt="Project Review-3 本科毕业设计" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives/">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories/">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags/">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about/">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main">
+<div class="card">	
+    
+	
+    <div class="card-content article ">		
+		
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+				
+				
+                <time class="level-item has-text-grey" datetime="2020-04-23T05:31:10.000Z">2020-04-23</time>
+				
+				
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Project/">Project</a>
+                </div>
+                
+             
+				
+                <span class="level-item has-text-grey">
+                    
+                    
+                    11 minutes read (About 1589 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+				
+				
+				<i class="fas fa-arrow-alt-circle-up" style="color:#3273dc"></i>
+				<span class="level-item" style="color:#3273dc">&nbsp;Top</span>
+				
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Project Review-3 本科毕业设计
+            
+        </h1>
+        <div class="content">
+            <p>在神经网络中，存在着大量的参数，如果这些参数都用浮点数表示，将会消耗大量的硬件资源，这对于硬件资源有限的嵌入式平台是十分不友好的。在实际硬件实现中，往往采用将浮点数进行定点化处理，用定点数来表示浮点数。</p>
+<a id="more"></a>
+
+<h2 id="数据的量化与截位"><a href="#数据的量化与截位" class="headerlink" title="数据的量化与截位"></a>数据的量化与截位</h2><h3 id="数据的量化"><a href="#数据的量化" class="headerlink" title="数据的量化"></a>数据的量化</h3><h4 id="浮点数的定点化表示"><a href="#浮点数的定点化表示" class="headerlink" title="浮点数的定点化表示"></a>浮点数的定点化表示</h4><p>在目前的神经网络量化策略中，一般采用16位的定点数来表示数据，且对网络的精度损失比较低。因此，本项目中均采用16位的定点小数来表示输入值和参数。16位的定点数一共有3部分组成，1位符号位，4位整数位，11位小数位。小数位的位数也称量化系数（若小数位宽为0，则该定点数只有整数部分，此时也称为定点整数）。为了便于表示，本文将有符号定点数的表示方式定义如下：<br>$$fix = mQn$$ </p>
+<p>其中，$m$ 表示 定点数的位宽，$n$ 表示小数位宽，即量化系数。</p>
+<p>那么，其浮点数的定点化公式转化如公式1所示：<br>$$ fix = round(float\times2^{n})\tag{1}$$</p>
+<p>其python代码如下所示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 浮点数量化为定点数(dec)</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fp2fix</span>(<span class="params">float_num, quant_width=<span class="number">11</span></span>):</span></span><br><span class="line">    fix_num = <span class="built_in">round</span>(float_num * (<span class="number">2</span>**quant_width))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> fix_num</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定点数(dec)转化为浮点数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fix2fp</span>(<span class="params">fix_num, bit_width=<span class="number">16</span>, quant_width=<span class="number">11</span></span>):</span></span><br><span class="line">    <span class="keyword">if</span> (fix_num &gt;= <span class="number">2</span>**(bit_width<span class="number">-1</span>)):</span><br><span class="line">        float_num = (fix_num - <span class="number">2</span>**bit_width) / <span class="number">2</span>**quant_width</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        float_num = fix_num / <span class="number">2</span>**quant_width</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> float_num</span><br></pre></td></tr></table></figure>
+<h4 id="定点数的位数扩展"><a href="#定点数的位数扩展" class="headerlink" title="定点数的位数扩展"></a>定点数的位数扩展</h4><p>在定点数的计算中，由于定点数的表示范围有限，对于$mQn$ 定点数的表示范围为<br>$$<br>-2^{m-n-1} \sim 2^{m-n-1}- \frac {1}{2^n}$$ </p>
+<p>例如16$Q$11的数据表示范围为 $-16 \sim 15.9995$。</p>
+<p>在进行加法和乘法操作时，原先的位数已经无法正确表示计算后的结果，因此需要对数据进行位数的扩展。对于有符号定点数而言，在进行扩位时，整数部分需要进行符号位的扩展，小数部分则需要在末尾进行0补充。例如，将 $4Q2$ 定点数扩位成 $6Q3$ 的定点数，其具体扩位操作如下：<br>$$<br>\begin{align}<br>&amp;(4Q2)4’b 10.11=1\times(-2^1)+0\times2^0+1\times2^{-1}+1*2^{-2}=-1.25\\<br> &amp;(6Q3)6’b 110.110 =1\times(-2^2)+1\times2^1+0\times2^0+1\times2^{-1}+1\times2^{-2}+0\times2^{-3}=<br>-1.25\\<br>\end{align}$$</p>
+<p>由上式可知，数据经过扩位后数据大小并不发生变化。</p>
+<h3 id="数据的截位"><a href="#数据的截位" class="headerlink" title="数据的截位"></a>数据的截位</h3><p>在定点数的加法和乘法运算中，为了保证数据的准确性，计算结果都是要进行扩位来保存的，但在实际中由于硬件资源有限，随着数据的频繁计算，不可能一直通过数据扩位来保存数据，因此在保证数据正确性的情况下，需要对数据进行截位处理。一种比较精确的处理方式是先对截位后的数据进行四舍五入处理，如果四舍五入过程中由于进位导致数据溢出，还需要对结果做饱和处理。</p>
+<h4 id="定点数的运算"><a href="#定点数的运算" class="headerlink" title="定点数的运算"></a>定点数的运算</h4><p>两个有符号定点数相加，两个加数一定要对齐小数点并进行符号位的拓展，为了保证数据不溢出，和的总位宽为加数的位宽+1。例如 $aQm$ 和 $bQn$ 相加（$a&gt;b,m&gt;n$），则两者的小数位宽要统一为m位，整数位宽统一为a位，且和的存储格式要用 $(a+1)Qm$存储。</p>
+<p>两个有符号定点数相乘，为了保证积不溢出，积的总位宽为两个乘数位宽之和。例如 $aQm$ 和 $bQn$ 相乘, 则积的存储格式要用 $(a+b)Q(m+n)$ 存储。</p>
+<h4 id="四舍五入"><a href="#四舍五入" class="headerlink" title="四舍五入"></a>四舍五入</h4><p>数据的截位主要依据定点数定义的小数位宽进行截位，但是把数据只进行简单的截取会使得结果不够精确，工程上一般采用通过判断符号位然后根据截掉的小数部分进行四舍五入进位的方式来处理。</p>
+<p>对于正数，首先判断截取部分的最高位是否为1，若最高位为1，则需要进位加1；反之不需要进位。对于负数，进位判断正好相反，如果截取部分最高位为1以及其它位也有为1的情况，由于是负数，所以此时不需要进位。但与正数不同的是，负数不进位时需要加1；反之需要进位时不需要加1。其 <em>verilog</em> 代码如下：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 小数位低位截位 -&gt; 四舍五入进位判断</span></span><br><span class="line"><span class="keyword">assign</span> carry_bit = calc_out[<span class="number">2</span>*dwidth-<span class="number">1</span>]?(calc_out[qwidth-<span class="number">1</span>] &amp; (|calc_out[qwidth-<span class="number">2</span>:<span class="number">0</span>])):calc_out[qwidth-<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">assign</span> dout_round = &#123;calc_out[<span class="number">2</span>*dwidth-<span class="number">1</span>], calc_out[<span class="number">2</span>*dwidth-<span class="number">1</span>:qwidth]&#125; + carry_bit;</span><br></pre></td></tr></table></figure>
+
+<h4 id="饱和截位"><a href="#饱和截位" class="headerlink" title="饱和截位"></a>饱和截位</h4><p>所谓的饱和截位是指如果计算结果超出了数据格式能表示的最大值，则用最大值来表示这个溢出的数据。同理，如果计算结果超过了数据的最小值，那么就用最小值来代替这个数据。其 <em>verilog</em> 代码如下：</p>
+<figure class="highlight verilog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 整数位高位截位 -&gt; 溢出进行饱和操作</span></span><br><span class="line"><span class="keyword">assign</span> dout = (dout_round[<span class="number">2</span>*dwidth-qwidth:dwidth-<span class="number">1</span>] == &#123;(dwidth-qwidth+<span class="number">2</span>)&#123;<span class="number">1&#x27;b0</span>&#125;&#125; </span><br><span class="line">            || dout_round[<span class="number">2</span>*dwidth-qwidth:dwidth-<span class="number">1</span>] == &#123;(dwidth-qwidth+<span class="number">2</span>)&#123;<span class="number">1&#x27;b1</span>&#125;&#125;)?</span><br><span class="line">            dout_round[-<span class="number">1</span>:<span class="number">0</span>]:&#123;dout_round[<span class="number">2</span>*dwidth-qwidth],&#123;(dwidth-<span class="number">1</span>)&#123;!dout_round[<span class="number">2</span>*dwidth-qwidtdwidthh]&#125;&#125;&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="卷积计算电路的计算结果对比"><a href="#卷积计算电路的计算结果对比" class="headerlink" title="卷积计算电路的计算结果对比"></a>卷积计算电路的计算结果对比</h4><p>为了验证计算结果的正确性，将之前转化好的定点数进行输入，经过卷积模块计算后，其最终的结果如表1所示。并将卷积电路计算得到的结果与Matlab软件计算结果进行比较，比较结果如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">fpga fix</th>
+<th align="center">fpga fix-&gt;float</th>
+<th align="center">result on matlab</th>
+<th align="center">error</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">0xffe0</td>
+<td align="center">-0.01562500000</td>
+<td align="center">-0.01510682666</td>
+<td align="center">-0.0005</td>
+</tr>
+<tr>
+<td align="center">0xff96</td>
+<td align="center">-0.05175781250</td>
+<td align="center">-0.05172769939</td>
+<td align="center">-0.0000</td>
+</tr>
+<tr>
+<td align="center">0x0004</td>
+<td align="center">0.001953125000</td>
+<td align="center">0.002844710976</td>
+<td align="center">-0.0009</td>
+</tr>
+<tr>
+<td align="center">0xff91</td>
+<td align="center">-0.05419921875</td>
+<td align="center">-0.05379437370</td>
+<td align="center">-0.0004</td>
+</tr>
+<tr>
+<td align="center">0x001b</td>
+<td align="center">0.013183593750</td>
+<td align="center">0.014041541711</td>
+<td align="center">-0.0009</td>
+</tr>
+<tr>
+<td align="center">0xffda</td>
+<td align="center">-0.01855468750</td>
+<td align="center">-0.01836803962</td>
+<td align="center">-0.0002</td>
+</tr>
+<tr>
+<td align="center">0xffaf</td>
+<td align="center">-0.03955078125</td>
+<td align="center">-0.03915937634</td>
+<td align="center">-0.0004</td>
+</tr>
+<tr>
+<td align="center">0xffd3</td>
+<td align="center">-0.02197265625</td>
+<td align="center">-0.02108133655</td>
+<td align="center">-0.0009</td>
+</tr>
+<tr>
+<td align="center">0xffee</td>
+<td align="center">-0.00878906250</td>
+<td align="center">-0.00842345750</td>
+<td align="center">-0.0003</td>
+</tr>
+</tbody></table>
+<center style="font-size:14px">表1：卷积计算电路的计算结果对比</center><br>
+
+<p>由上表可知，该卷积电路计算结果基本正确，误差也在可接受范围之内，如果对数据精度有更高的要求，可以对定点数量化系数进行调整。</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link-link" href="/tags/%E6%AF%95%E8%AE%BE%E9%A1%B9%E7%9B%AE/" rel="tag">毕设项目</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/07/04/Review-final/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Project Review-4 本科毕业设计</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/04/22/Review2/">
+                <span class="level-item">Project Review-2 本科毕业设计</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: 'NbsfS7DMjL0e7wrlEniIL4sS-9Nh9j0Va',
+        app_key: 'SmitvmqoF2K60fdfnw257MKT',
+        placeholder: 'Say something...'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+
+    <div class="card widget column-left is-sticky" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    Catalogue
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#数据的量化与截位">
+        <span class="has-mr-6">1</span>
+        <span>数据的量化与截位</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#数据的量化">
+        <span class="has-mr-6">1.1</span>
+        <span>数据的量化</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#浮点数的定点化表示">
+        <span class="has-mr-6">1.1.1</span>
+        <span>浮点数的定点化表示</span>
+        </a></li><li>
+        <a class="is-flex" href="#定点数的位数扩展">
+        <span class="has-mr-6">1.1.2</span>
+        <span>定点数的位数扩展</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#数据的截位">
+        <span class="has-mr-6">1.2</span>
+        <span>数据的截位</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#定点数的运算">
+        <span class="has-mr-6">1.2.1</span>
+        <span>定点数的运算</span>
+        </a></li><li>
+        <a class="is-flex" href="#四舍五入">
+        <span class="has-mr-6">1.2.2</span>
+        <span>四舍五入</span>
+        </a></li><li>
+        <a class="is-flex" href="#饱和截位">
+        <span class="has-mr-6">1.2.3</span>
+        <span>饱和截位</span>
+        </a></li><li>
+        <a class="is-flex" href="#卷积计算电路的计算结果对比">
+        <span class="has-mr-6">1.2.4</span>
+        <span>卷积计算电路的计算结果对比</span>
+        </a></li></ul></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/mylogo.svg" alt="Project Review-3 本科毕业设计" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021 zhengzb&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_uv">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://samzhengzb.github.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" target="_blank" rel="noopener" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Markmap</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+}
+#mindmap {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+</style>
+
+</head>
+<body>
+<svg id="mindmap"></svg>
+<script src="https://cdn.jsdelivr.net/npm/d3@5"></script><script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.7.11/dist/browser/view.min.js"></script><script>((data, init, items, opts) => {
+        const {
+          Markmap,
+          loadPlugins
+        } = window.markmap;
+        (init ? init(loadPlugins, items, opts) : Promise.resolve()).then(() => {
+          Markmap.create('svg#mindmap', null, data);
+        });
+      })({"t":"heading","d":1,"v":"项目大纲","c":[{"t":"list_item","d":2,"v":"<strong>CNN基本原理</strong>","c":[{"t":"list_item","d":3,"v":"算法原理"},{"t":"list_item","d":3,"v":"模型训练和权值提取"}]},{"t":"list_item","d":2,"v":"<strong>CNN加速器的架构设计</strong>","c":[{"t":"list_item","d":3,"v":"测试方案的架构设计"},{"t":"list_item","d":3,"v":"加速器数据读写的架构设计"},{"t":"list_item","d":3,"v":"加速器的架构设计","c":[{"t":"list_item","d":4,"v":"卷积层结构的设计","c":[{"t":"list_item","d":5,"v":"卷积单元的设计"},{"t":"list_item","d":5,"v":"池化单元的设计"},{"t":"list_item","d":5,"v":"激活函数的设计"},{"t":"list_item","d":5,"v":"数据输入模块的设计"},{"t":"list_item","d":5,"v":"数据剔除模块的设计"}]},{"t":"list_item","d":4,"v":"全连接层结构的设计"}]},{"t":"list_item","d":3,"v":"数据的量化与截位","c":[{"t":"list_item","d":4,"v":"16位定点数表示"},{"t":"list_item","d":4,"v":"低位四舍五入,高位饱和操作"}]}]},{"t":"list_item","d":2,"v":"<strong>CNN加速器的实验测试</strong>","c":[{"t":"list_item","d":3,"v":"仿真验证"},{"t":"list_item","d":3,"v":"功能测试"},{"t":"list_item","d":3,"v":"性能测试"}]}]})</script>
+</body>
+</html>

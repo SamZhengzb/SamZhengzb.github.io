@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 5.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>AI core &amp; RISC Architecture 课程笔记 - Zhengzb&#39;s Blog</title>
+
+
+    <meta name="description" content="Week2：本周学习的知识主要包括：首先介绍了芯片工艺制造过程中缩放定律（Dennard Scaling）的变迁，在该变迁过程中，由于受到功耗的限制，产生了所谓的暗硅现象（Dark Silicon）；其次介绍了指令集架构（ISA）的概念和研究内容，详细阐述了CISC和RISC的区别，并介绍了一个评判ISA性能的理论公式；最后介绍了一个4条指令的极简RISC-V指令集的案例。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI core &amp; RISC Architecture 课程笔记">
+<meta property="og:url" content="https://samzhengzb.github.io/2020/07/14/week2/">
+<meta property="og:site_name" content="Zhengzb&#39;s Blog">
+<meta property="og:description" content="Week2：本周学习的知识主要包括：首先介绍了芯片工艺制造过程中缩放定律（Dennard Scaling）的变迁，在该变迁过程中，由于受到功耗的限制，产生了所谓的暗硅现象（Dark Silicon）；其次介绍了指令集架构（ISA）的概念和研究内容，详细阐述了CISC和RISC的区别，并介绍了一个评判ISA性能的理论公式；最后介绍了一个4条指令的极简RISC-V指令集的案例。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://samzhengzb.github.io/images/og_image.png">
+<meta property="article:published_time" content="2020-07-14T07:50:43.000Z">
+<meta property="article:modified_time" content="2020-09-12T07:14:29.320Z">
+<meta property="article:author" content="zhengzb">
+<meta property="article:tag" content="课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://samzhengzb.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/github-gist.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/mylogo.svg" alt="AI core &amp; RISC Architecture 课程笔记" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives/">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories/">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags/">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about/">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main">
+<div class="card">	
+    
+	
+    <div class="card-content article ">		
+		
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+				
+				
+                <time class="level-item has-text-grey" datetime="2020-07-14T07:50:43.000Z">2020-07-14</time>
+				
+				
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Course/">Course</a>
+                </div>
+                
+             
+				
+                <span class="level-item has-text-grey">
+                    
+                    
+                    11 minutes read (About 1669 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+				
+				
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                AI core &amp; RISC Architecture 课程笔记
+            
+        </h1>
+        <div class="content">
+            <p><strong>Week2</strong>：本周学习的知识主要包括：首先介绍了芯片工艺制造过程中缩放定律（Dennard Scaling）的变迁，在该变迁过程中，由于受到功耗的限制，产生了所谓的暗硅现象（Dark Silicon）；其次介绍了指令集架构（ISA）的概念和研究内容，详细阐述了CISC和RISC的区别，并介绍了一个评判ISA性能的理论公式；最后介绍了一个4条指令的极简RISC-V指令集的案例。<a id="more"></a></p>
+<h2 id="内容回顾"><a href="#内容回顾" class="headerlink" title="内容回顾"></a>内容回顾</h2><h3 id="缩放定律的变迁"><a href="#缩放定律的变迁" class="headerlink" title="缩放定律的变迁"></a>缩放定律的变迁</h3><ul>
+<li><p><strong>摩尔定律（1965）的解释：Dennard Scaling</strong></p>
+<p>由美国科学家罗伯特唐纳德（DRAM的发明人）在1974年提出。指出随着芯片尺寸的进一步减小，内部的电场是保持不变的，即<strong>电场守恒缩放（Constant field Scaling）</strong>。因此随着芯片尺寸的虽小，假设尺寸变化比例为$S$。</p>
+<table>
+<thead>
+<tr>
+<th>Transistors Property</th>
+<th align="center">Change</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>${\Delta}$Quantity</td>
+<td align="center">$S^2$</td>
+</tr>
+<tr>
+<td>${\Delta}$Frequency</td>
+<td align="center">$S$</td>
+</tr>
+<tr>
+<td>${\Delta}$Capacity</td>
+<td align="center">$\frac{1}{S}$</td>
+</tr>
+<tr>
+<td>${\Delta}{V_{dd}}^2$</td>
+<td align="center">$\frac{1}{S^2}$</td>
+</tr>
+</tbody></table>
+<p>那么根据功耗的表达式，芯片功耗的变化为<br>$${\Delta}Power={\Delta}QFCV^2=1$$因此，在功耗可以保持不变的情况下，芯片的尺寸一直印证着摩尔定律在不断地缩小，性能也在不断地提高。</p>
+</li>
+<li><p><strong>缩放定律的变迁：Post Dennard Scaling</strong></p>
+<ul>
+<li>原因：晶体管是有阈值电压的，电源电压是有一个极限的，它不能小于管子的阈值电压$V_t$，故电源电压不可能一直减小，最后会保持趋于一个定值。</li>
+<li>发展：故传统Dennard Scaling不再适用，因此，<strong>电场守恒缩放（Constant field Scaling）</strong>逐步转变为<strong>电压守恒缩放（Coinstant Voltage Scaling）</strong>，那么原先的功耗结果将发生变化，即<br>$${\Delta}Power={\Delta}QFCV^2=S^2$$</li>
+</ul>
+<p>这就会造成随着芯片尺寸的减小，芯片的功耗将呈$S^2$倍的变化，导致芯片的功耗急剧增加。如图所示，当尺寸在0.1um的节点中，芯片单位面积产生的功耗已经可以和核电站的发热量相当，这使得了芯片的发展受到了自身功耗的很大限制，也产生了所谓的<strong>暗硅现象</strong>。<br><img src="/2020/07/14/week2/0002.png" alt=" "></p>
+</li>
+</ul>
+<h3 id="暗硅现象"><a href="#暗硅现象" class="headerlink" title="暗硅现象"></a>暗硅现象</h3><ul>
+<li><p><strong>暗硅现象的出现</strong>：由于芯片受到功耗的限制，对于多核处理器而言，他的每一个核并不能全部使用。因此在处理器工作时，有些处理器核是关闭，即所谓的“暗硅”（Dark Silicon）。但是芯片的工艺节点仍然在发展，如今已经到了7nm时代，这意味着我在相同面积的基础上能造更多的处理器核，但是实际工作的处理器核的利用率却越来越低。因此，为了避免以上现象的产生，工业界采用的解决方案是让处理器核处于“灰度状态”（Dim），即让处理器核在更低频率、更低功耗的状态下去工作，这样在消耗相同的功耗情况下，能同时运行的处理器核数可以增加，使得处理器核的利用率提高。这也是目前的处理器主频并没有提高太多的原因。<br><img src="/2020/07/14/week2/0003.png" alt=" "></p>
+</li>
+<li><p><strong>暗硅现象的发展</strong>：基于以上分析，由于Dark Silicon的存在，可以看出一个处理器芯片没有必要造更多的核数量，因为多余的核也是白白浪费的。然而，事实上却截然相反，Dark Silicon的存在反而使得在芯片上出现了更多的处理器核数量，这其中的原因主要如下：</p>
+<ul>
+<li>商业行为：误导消费者处理器核数量越多，处理器性能越强；</li>
+<li>更好地散热：芯片越大，有利于更好地散热；</li>
+<li>制造成本：芯片设计成本较高，制造成本较低。处理器核数量越多，开核的自由度越高，有利于减少处理器的设计难度（增加处理器核之间的距离，帮助更好地散热，更好地优化能耗。例如处理器核通过类似于国际象棋的排布，其热量就不会过于集中，且特定的情况下，在部分极短的时间开启所有核满足性能需求，也不会造成热的积累）。</li>
+</ul>
+<p><img src="/2020/07/14/week2/0004.png" alt=" "></p>
+</li>
+<li><p><strong>专用处理器的设计</strong>：对于目前的处理器而言，芯片功耗的降低比面积的降低更加重要。而使用专用的处理器核相比通用的处理器核能效比更高，产生的功耗也更加低，因此为了更好地提高处理器的性能，在多余核无用的情况下，不如将无用核的替换成专用的处理核，如现在SoC处理器中，一颗多核的CPU周边会搭配若干个专用的处理器核，如GPU、AI加速器、通信基带、视频编解码器等，这样当设备需要什么功能时直接调用相应的处理器核即可，这样将大大减少芯片的功耗，同时提高处理器的性能。因此，从一定程度上可以说，Dark Silicon的出现也为设计专业的处理器核奠定了一定的理论依据。<br><img src="/2020/07/14/week2/0005.png" alt=" "></p>
+</li>
+</ul>
+<h3 id="指令集架构"><a href="#指令集架构" class="headerlink" title="指令集架构"></a>指令集架构</h3><ul>
+<li><p>计算机体系结构研究的内容：</p>
+<ul>
+<li>指令集架构（Instruction Set ArchitectureISA）</li>
+<li>硬件组成（Hardware Organization）</li>
+</ul>
+<p><img src="/2020/07/14/week2/0007.png" alt=" "></p>
+</li>
+<li><p>x86的64位指令集是由AMD发明的</p>
+</li>
+<li><p>RISC和CISC的重要区别：<strong>存储器的访问方式</strong></p>
+<ul>
+<li>RISC只能以load 和store指令访问存储器，而ALU能访问到寄存器列表，数据需要先从存储器加载到寄存中，是Load-Store类型；</li>
+<li>CISC的指令都可以访问到存储器，ALU也能直接访问储器，是Register-Memory类型</li>
+</ul>
+<p><img src="/2020/07/14/week2/0010.png" alt=" "></p>
+</li>
+<li><p>评估一个ISA性能的理论公式<br>$$\frac{Time}{Program}={\frac{Instructions}{Program}}\times{\frac{Clock cycles}{Instructio}}\times{\frac{Time}{Clock cycles}}$$<br><img src="/2020/07/14/week2/0011.png" alt=" "></p>
+</li>
+</ul>
+<h3 id="RISC-V指令集"><a href="#RISC-V指令集" class="headerlink" title="RISC-V指令集"></a>RISC-V指令集</h3><ul>
+<li>RISC-V指令集<br><img src="/2020/07/14/week2/0013.png" alt=" "></li>
+<li>指令集格式说明<br><img src="/2020/07/14/week2/0014.png" alt=" "></li>
+<li>一个4条指令的案例<br><img src="/2020/07/14/week2/0015.png" alt=" "><br><img src="/2020/07/14/week2/0016.png" alt=" "></li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link-link" href="/tags/%E8%AF%BE%E7%A8%8B%E7%AC%94%E8%AE%B0/" rel="tag">课程笔记</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/08/21/week3/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">AI core &amp; RISC Architecture 课程笔记</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/07/05/week1/">
+                <span class="level-item">AI core &amp; RISC Architecture 课程笔记</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: 'NbsfS7DMjL0e7wrlEniIL4sS-9Nh9j0Va',
+        app_key: 'SmitvmqoF2K60fdfnw257MKT',
+        placeholder: 'Say something...'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+
+    <div class="card widget column-left is-sticky" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    Catalogue
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#内容回顾">
+        <span class="has-mr-6">1</span>
+        <span>内容回顾</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#缩放定律的变迁">
+        <span class="has-mr-6">1.1</span>
+        <span>缩放定律的变迁</span>
+        </a></li><li>
+        <a class="is-flex" href="#暗硅现象">
+        <span class="has-mr-6">1.2</span>
+        <span>暗硅现象</span>
+        </a></li><li>
+        <a class="is-flex" href="#指令集架构">
+        <span class="has-mr-6">1.3</span>
+        <span>指令集架构</span>
+        </a></li><li>
+        <a class="is-flex" href="#RISC-V指令集">
+        <span class="has-mr-6">1.4</span>
+        <span>RISC-V指令集</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/mylogo.svg" alt="AI core &amp; RISC Architecture 课程笔记" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021 zhengzb&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_uv">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://samzhengzb.github.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" target="_blank" rel="noopener" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
