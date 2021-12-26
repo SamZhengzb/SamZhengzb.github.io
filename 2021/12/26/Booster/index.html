@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 5.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Booster-面向自动驾驶多目标检测场景的可配置加速器设计 - Zhengzb&#39;s Blog</title>
+
+
+    <meta name="description" content="自动驾驶汽车应对在高速公路和主干道等高速行驶场景以及对各种突然事件需要做出及时的反应，如旁边车辆变道、前方车辆突发故障或前方行人突然出现等，检测系统要求具备较高的实时性，其中硬件加速平台是整个系统中最关键的部分。本项目设计的智能加速平台能够推理加速多种深度学习算法，帮助自动驾驶系统快速全面认知复杂路况、精准感知、预测车辆行驶过程中的交通情况，并且实时对周边环境做出准确的判断。此外，还可以应用在智能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Booster-面向自动驾驶多目标检测场景的可配置加速器设计">
+<meta property="og:url" content="https://samzhengzb.github.io/2021/12/26/Booster/">
+<meta property="og:site_name" content="Zhengzb&#39;s Blog">
+<meta property="og:description" content="自动驾驶汽车应对在高速公路和主干道等高速行驶场景以及对各种突然事件需要做出及时的反应，如旁边车辆变道、前方车辆突发故障或前方行人突然出现等，检测系统要求具备较高的实时性，其中硬件加速平台是整个系统中最关键的部分。本项目设计的智能加速平台能够推理加速多种深度学习算法，帮助自动驾驶系统快速全面认知复杂路况、精准感知、预测车辆行驶过程中的交通情况，并且实时对周边环境做出准确的判断。此外，还可以应用在智能">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://samzhengzb.github.io/images/og_image.png">
+<meta property="article:published_time" content="2021-12-26T08:04:09.000Z">
+<meta property="article:modified_time" content="2021-12-26T13:02:27.028Z">
+<meta property="article:author" content="zhengzb">
+<meta property="article:tag" content="CNN Accelerator">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://samzhengzb.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/github-gist.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    <script async="" src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-2-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/mylogo.svg" alt="Booster-面向自动驾驶多目标检测场景的可配置加速器设计" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives/">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories/">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags/">Tags</a>
+                
+                <a class="navbar-item"
+                href="/source/about/">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main">
+<div class="card">	
+    
+	
+    <div class="card-content article ">		
+		
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+				
+				
+                <time class="level-item has-text-grey" datetime="2021-12-26T08:04:09.000Z">2021-12-26</time>
+				
+				
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Project/">Project</a>
+                </div>
+                
+             
+				
+                <span class="level-item has-text-grey">
+                    
+                    
+                    7 minutes read (About 1019 words)
+                </span>
+                
+                
+                <span class="level-item has-text-grey" id="busuanzi_container_page_pv">
+                    <i class="far fa-eye"></i>
+                    <span id="busuanzi_value_page_pv">0</span> visits
+                </span>
+                
+				
+				
+				<i class="fas fa-arrow-alt-circle-up" style="color:#3273dc"></i>
+				<span class="level-item" style="color:#3273dc">&nbsp;Top</span>
+				
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Booster-面向自动驾驶多目标检测场景的可配置加速器设计
+            
+        </h1>
+        <div class="content">
+            <p>自动驾驶汽车应对在高速公路和主干道等高速行驶场景以及对各种突然事件需要做出及时的反应，如旁边车辆变道、前方车辆突发故障或前方行人突然出现等，检测系统要求具备较高的实时性，其中硬件加速平台是整个系统中最关键的部分。本项目设计的智能加速平台能够推理加速多种深度学习算法，帮助自动驾驶系统快速全面认知复杂路况、精准感知、预测车辆行驶过程中的交通情况，并且实时对周边环境做出准确的判断。此外，还可以应用在智能安防、智慧交通、工业生产等嵌入式领域。</p>
+<a id="more"></a> 
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>读研期间，主要研究面向目标检测领域的加速器设计，包含两个项目：一个是2021 DAC System Design Contest 低功耗单目标检测系统设计竞赛，另一个是面向自动驾驶多目标检测场景的可配置深度学习加速器设计。这篇文章主要介绍一下面向自动驾驶多目标检测场景的可配置深度学习加速器设计。</p>
+<h2 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h2><h3 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h3><p><img src="/2021/12/26/Booster/Booster_arch.png" alt></p>
+<p>整个系统基于Xilinx ZYNQ异构计算平台搭建，ARM（CPU）端运行装有PYNQ软件框架的Linux系统，CPU通过AXI-GP接口配置加速器和DMA，加速器的数据搬运依赖DMA走AXI-HP接口，使用的是AXI-Stream总线。加速器系统（Booster System）包含缓存模块、计算模块以及总线接口模块。</p>
+<p><strong>缓存模块</strong>包含指令缓存、BN参数缓存、权重缓存以及图片的输入和计算结果的输出缓存。</p>
+<p><strong>计算模块</strong>为加速器Booster的核心模块，主要由控制模块、2块特征图缓存缓存模块、PE模块、预处理模块、累加模块、BN ReLU模块（简称BR模块）、池化模块组成。</p>
+<p><strong>加速器的主要特点</strong></p>
+<ul>
+<li>通用化的加速器架构（命名为Booster），加速器由缓存部分和计算部分构成，缓存模块用来配置网络模型的参数，用户可以通过向加速器系统的参数缓存和指令缓存配置网络模型的参数和描述模型结构的指令，便可直接部署不同CNN网络模型</li>
+<li>高利用率的PE单元设计，可以实现标准卷积、深度卷积、点卷积3种不同类型的卷积计算</li>
+<li>基于量化感知训练的软硬件协同设计（INT8，W8A8）</li>
+<li>支持算子<ul>
+<li>Standard Convolution、Depthwise Convolution、Pointwise Convolution</li>
+<li>Max Pooling、Average Pooling</li>
+<li>ReLU</li>
+<li>Batch Normalization</li>
+<li>Concat</li>
+<li>Upsample</li>
+<li>Branch</li>
+<li>Round（四舍五入、四舍六入五成双）</li>
+</ul>
+</li>
+</ul>
+<h3 id="资源消耗情况"><a href="#资源消耗情况" class="headerlink" title="资源消耗情况"></a>资源消耗情况</h3><table>
+<thead>
+<tr>
+<th align="center">Resource</th>
+<th align="center">Utilization</th>
+<th align="center">Available</th>
+<th align="center">Utilization / %</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">LUT</td>
+<td align="center">98193</td>
+<td align="center">230400</td>
+<td align="center">42.62</td>
+</tr>
+<tr>
+<td align="center">LUTRAM</td>
+<td align="center">28190</td>
+<td align="center">101760</td>
+<td align="center">27.70</td>
+</tr>
+<tr>
+<td align="center">FF</td>
+<td align="center">72421</td>
+<td align="center">460800</td>
+<td align="center">15.72</td>
+</tr>
+<tr>
+<td align="center">BRAM</td>
+<td align="center">156</td>
+<td align="center">312</td>
+<td align="center">50.00</td>
+</tr>
+<tr>
+<td align="center">URAM</td>
+<td align="center">96</td>
+<td align="center">96</td>
+<td align="center">100.00</td>
+</tr>
+<tr>
+<td align="center">DSP</td>
+<td align="center">625</td>
+<td align="center">1728</td>
+<td align="center">36.17</td>
+</tr>
+</tbody></table>
+<h3 id="功耗情况"><a href="#功耗情况" class="headerlink" title="功耗情况"></a>功耗情况</h3><p><img src="/2021/12/26/Booster/power.png" alt></p>
+<h3 id="Demo展示"><a href="#Demo展示" class="headerlink" title="Demo展示"></a>Demo展示</h3><h4 id="场景一：市区街道场景应用"><a href="#场景一：市区街道场景应用" class="headerlink" title="场景一：市区街道场景应用"></a>场景一：市区街道场景应用</h4><ul>
+<li>模型： MobileNetV1-YoloV3-tiny，输入尺寸640x320x3</li>
+<li>平台：ZCU104 + PYNQ</li>
+<li>场景搭建：OpenCV 读取Camera，依次进行图像Resize、加速器Inference、NMS处理和Box显示。</li>
+</ul>
+<p><img src="/2021/12/26/Booster/show1.gif" alt></p>
+<p><img src="/2021/12/26/Booster/read_build1.png" alt></p>
+<h4 id="场景二：公路场景应用"><a href="#场景二：公路场景应用" class="headerlink" title="场景二：公路场景应用"></a>场景二：公路场景应用</h4><ul>
+<li>模型： MobileNetV1-YoloV3-tiny，输入尺寸640x320x3</li>
+<li>平台：ZCU104 + PYNQ</li>
+<li>场景搭建：OpenCV 读取Video视频流，依次进行图像Resize、加速器Inference、NMS处理和Box显示。</li>
+</ul>
+<p><img src="/2021/12/26/Booster/show2.gif" alt></p>
+<p><img src="/2021/12/26/Booster/real_build2.png" alt></p>
+<h3 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h3><table>
+<thead>
+<tr>
+<th align="center">Test Work</th>
+<th align="center">FPS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Video Read Baseline</td>
+<td align="center">67</td>
+</tr>
+<tr>
+<td align="center">Camera Read Baseline</td>
+<td align="center">14/90</td>
+</tr>
+<tr>
+<td align="center">Booster</td>
+<td align="center">52</td>
+</tr>
+<tr>
+<td align="center">Booster+NMS(CPU)</td>
+<td align="center">33</td>
+</tr>
+<tr>
+<td align="center">Video+IMG Resize+Booster+NMS</td>
+<td align="center">20</td>
+</tr>
+<tr>
+<td align="center">Camera+IMG Resize+Booster+NMS</td>
+<td align="center">10/24</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Camera设备1为罗技的c270 (720p 30fps) , Camera Read Baseline测试为14fps</li>
+<li>Camera设备2为 See3CAM_CU30_CHL_TC_BX  (1080p 60fps)，Camera Read Baseline测试为90fps</li>
+<li>Booster 主频为 215MHz，AXI 总线传输位宽为 32bit</li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link-link" href="/tags/CNN-Accelerator/" rel="tag">CNN Accelerator</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2021/12/26/Booster-dac-sdc/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Booster-2021 DAC System Design Contest</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/10/19/Metrics-DSA/">
+                <span class="level-item">Key Metrics and Design Objectives for DNN Accelerator</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: 'NbsfS7DMjL0e7wrlEniIL4sS-9Nh9j0Va',
+        app_key: 'SmitvmqoF2K60fdfnw257MKT',
+        placeholder: 'Say something...'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+
+    <div class="card widget column-left is-sticky" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    Catalogue
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#前言">
+        <span class="has-mr-6">1</span>
+        <span>前言</span>
+        </a></li><li>
+        <a class="is-flex" href="#项目介绍">
+        <span class="has-mr-6">2</span>
+        <span>项目介绍</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#系统架构">
+        <span class="has-mr-6">2.1</span>
+        <span>系统架构</span>
+        </a></li><li>
+        <a class="is-flex" href="#资源消耗情况">
+        <span class="has-mr-6">2.2</span>
+        <span>资源消耗情况</span>
+        </a></li><li>
+        <a class="is-flex" href="#功耗情况">
+        <span class="has-mr-6">2.3</span>
+        <span>功耗情况</span>
+        </a></li><li>
+        <a class="is-flex" href="#Demo展示">
+        <span class="has-mr-6">2.4</span>
+        <span>Demo展示</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#场景一：市区街道场景应用">
+        <span class="has-mr-6">2.4.1</span>
+        <span>场景一：市区街道场景应用</span>
+        </a></li><li>
+        <a class="is-flex" href="#场景二：公路场景应用">
+        <span class="has-mr-6">2.4.2</span>
+        <span>场景二：公路场景应用</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#性能测试">
+        <span class="has-mr-6">2.5</span>
+        <span>性能测试</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/mylogo.svg" alt="Booster-面向自动驾驶多目标检测场景的可配置加速器设计" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2021 zhengzb&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                <br>
+                <span id="busuanzi_container_site_uv">
+                Visited by <span id="busuanzi_value_site_uv">0</span> users
+                </span>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/samzhengzb">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'https://samzhengzb.github.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" target="_blank" rel="noopener" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
